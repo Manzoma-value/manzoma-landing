@@ -111,7 +111,6 @@ export default function Hero() {
     1800,
   );
 
-  // ── CINEMATIC ENTRANCE SEQUENCE ──
   useEffect(() => {
     const timings: [Phase, number][] = [
       ["logo", 900],
@@ -190,9 +189,7 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* ══════════════════════════════════════════
-          CINEMATIC CURTAIN — lifts on load
-      ══════════════════════════════════════════ */}
+      {/* ── CINEMATIC CURTAIN ── */}
       <div
         aria-hidden
         style={{
@@ -206,7 +203,6 @@ export default function Hero() {
           pointerEvents: phase === "curtain" ? "all" : "none",
         }}
       />
-      {/* Gold sweep line that rides the curtain edge */}
       <div
         aria-hidden
         style={{
@@ -222,11 +218,7 @@ export default function Hero() {
         }}
       />
 
-      {/* ══════════════════════════════════════════
-          BACKGROUND SYSTEM
-      ══════════════════════════════════════════ */}
-
-      {/* Noise texture */}
+      {/* ── BACKGROUNDS ── */}
       <div
         aria-hidden
         style={{
@@ -238,8 +230,6 @@ export default function Hero() {
           opacity: 0.4,
         }}
       />
-
-      {/* Grid */}
       <div
         aria-hidden
         style={{
@@ -251,8 +241,6 @@ export default function Hero() {
           backgroundSize: "72px 72px",
         }}
       />
-
-      {/* Mouse radial */}
       <div
         aria-hidden
         style={{
@@ -264,8 +252,6 @@ export default function Hero() {
           transition: "background 0.8s ease",
         }}
       />
-
-      {/* Petroleum ambient */}
       <div
         aria-hidden
         style={{
@@ -281,8 +267,6 @@ export default function Hero() {
           zIndex: 2,
         }}
       />
-
-      {/* Gold ambient */}
       <div
         aria-hidden
         style={{
@@ -299,9 +283,10 @@ export default function Hero() {
         }}
       />
 
-      {/* Geo lines top-left */}
+      {/* Geo lines — hidden on mobile to reduce clutter */}
       <div
         aria-hidden
+        className="hero-geo-topleft"
         style={{
           position: "absolute",
           top: 0,
@@ -356,10 +341,9 @@ export default function Hero() {
           />
         </svg>
       </div>
-
-      {/* Geo lines bottom-right */}
       <div
         aria-hidden
+        className="hero-geo-bottomright"
         style={{
           position: "absolute",
           bottom: 0,
@@ -407,9 +391,10 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Dot matrix top-right */}
+      {/* Dot matrices — hidden on mobile */}
       <div
         aria-hidden
+        className="hero-dots-tr"
         style={{
           position: "absolute",
           top: "6%",
@@ -434,10 +419,9 @@ export default function Hero() {
           />
         ))}
       </div>
-
-      {/* Dot matrix bottom-left */}
       <div
         aria-hidden
+        className="hero-dots-bl"
         style={{
           position: "absolute",
           bottom: "12%",
@@ -463,9 +447,10 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Vertical rule */}
+      {/* Vertical rule — hidden on mobile */}
       <div
         aria-hidden
+        className="hero-vline"
         style={{
           position: "absolute",
           top: "15%",
@@ -481,6 +466,7 @@ export default function Hero() {
         <div
           key={i}
           aria-hidden
+          className="hero-vline"
           style={{
             position: "absolute",
             top: `calc(15% + ${pct * 70}%)`,
@@ -496,9 +482,12 @@ export default function Hero() {
 
       {/* ══════════════════════════════════════════
           MAIN CONTENT
+          Mobile: flex column, space-between to fill 100dvh
       ══════════════════════════════════════════ */}
       <div
+        className="hero-content"
         style={{
+          marginTop: -28,
           flex: 1,
           display: "flex",
           flexDirection: "column",
@@ -514,6 +503,7 @@ export default function Hero() {
         <div
           onMouseEnter={() => setLogoHovered(true)}
           onMouseLeave={() => setLogoHovered(false)}
+          className="hero-logo-wrap"
           style={{
             position: "relative",
             width: "clamp(240px, 56vw, 580px)",
@@ -527,7 +517,6 @@ export default function Hero() {
               "opacity 1.1s cubic-bezier(0.16,1,0.3,1), filter 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1)",
           }}
         >
-          {/* Outermost wide halo */}
           <div
             aria-hidden
             style={{
@@ -542,7 +531,6 @@ export default function Hero() {
               transition: "opacity 0.85s cubic-bezier(0.16,1,0.3,1)",
             }}
           />
-          {/* Mid halo */}
           <div
             aria-hidden
             style={{
@@ -557,7 +545,6 @@ export default function Hero() {
               transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.07s",
             }}
           />
-          {/* Core halo */}
           <div
             aria-hidden
             style={{
@@ -572,7 +559,6 @@ export default function Hero() {
               transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1) 0.1s",
             }}
           />
-          {/* Bottom spill */}
           <div
             aria-hidden
             style={{
@@ -589,8 +575,6 @@ export default function Hero() {
               transition: "opacity 0.95s cubic-bezier(0.16,1,0.3,1) 0.13s",
             }}
           />
-
-          {/* Logo image */}
           <div
             style={{
               position: "relative",
@@ -621,7 +605,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── PREMIUM DIVIDER ── */}
+        {/* ── DIVIDER ── */}
         <div style={{ marginBottom: 36, ...contentStyle("divider") }}>
           <div
             style={{
@@ -661,8 +645,11 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── HEADLINE ── */}
-        <div style={{ marginBottom: 8, ...contentStyle("headline") }}>
+        {/* ── HEADLINE LINE 1 ── */}
+        <div
+          className="hero-headline-1"
+          style={{ marginBottom: 8, ...contentStyle("headline") }}
+        >
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
@@ -680,8 +667,6 @@ export default function Hero() {
             }}
           >
             <span style={{ color: COLORS.inkMuted, fontWeight: 600 }}>بـ</span>
-
-            {/* Typing word */}
             <span
               style={{
                 position: "relative",
@@ -739,13 +724,15 @@ export default function Hero() {
                 />
               </span>
             </span>
-
             <span style={{ color: COLORS.ink }}>نبني النمو</span>
           </h1>
         </div>
 
         {/* ── HEADLINE LINE 2 ── */}
-        <div style={{ marginBottom: 52, ...contentStyle("headline", 100) }}>
+        <div
+          className="hero-headline-2"
+          style={{ marginBottom: 52, ...contentStyle("headline", 100) }}
+        >
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
@@ -786,7 +773,6 @@ export default function Hero() {
 
         {/* ── 4 PILLARS ── */}
         <div style={{ width: "100%", maxWidth: 900, marginBottom: 48 }}>
-          {/* Label */}
           <div
             style={{
               display: "flex",
@@ -826,7 +812,6 @@ export default function Hero() {
             />
           </div>
 
-          {/* Cards */}
           <div
             style={{
               display: "grid",
@@ -870,7 +855,6 @@ export default function Hero() {
                       : "none",
                   }}
                 >
-                  {/* Top accent bar */}
                   <div
                     style={{
                       position: "absolute",
@@ -884,8 +868,6 @@ export default function Hero() {
                       transition: "opacity 0.4s ease",
                     }}
                   />
-
-                  {/* Number tag */}
                   <div
                     style={{
                       position: "absolute",
@@ -901,8 +883,6 @@ export default function Hero() {
                   >
                     {el.number}
                   </div>
-
-                  {/* Icon */}
                   <div
                     style={{
                       width: 56,
@@ -923,8 +903,6 @@ export default function Hero() {
                   >
                     {el.icon(el.accent)}
                   </div>
-
-                  {/* Name */}
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
@@ -939,8 +917,6 @@ export default function Hero() {
                   >
                     {el.ar}
                   </p>
-
-                  {/* Desc */}
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
@@ -955,8 +931,6 @@ export default function Hero() {
                   >
                     {el.desc}
                   </p>
-
-                  {/* Bottom line */}
                   <div
                     style={{
                       position: "absolute",
@@ -977,6 +951,7 @@ export default function Hero() {
 
         {/* ── CTAs ── */}
         <div
+          className="hero-ctas"
           style={{
             display: "flex",
             gap: 14,
@@ -986,7 +961,6 @@ export default function Hero() {
             ...contentStyle("cta"),
           }}
         >
-          {/* Primary */}
           <a
             href="#about"
             style={{
@@ -1034,8 +1008,6 @@ export default function Hero() {
               />
             </svg>
           </a>
-
-          {/* Secondary */}
           <a
             href="#contact"
             style={{
@@ -1076,6 +1048,7 @@ export default function Hero() {
 
         {/* ── SCROLL INDICATOR ── */}
         <div
+          className="hero-scroll"
           style={{
             opacity: isAfter(phase, "done") ? 0.5 : 0,
             transition: "opacity 0.8s ease 600ms",
@@ -1126,7 +1099,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ── GLOBAL STYLES ── */}
+      {/* ── GLOBAL + MOBILE STYLES ── */}
       <style>{`
         @keyframes curtainLift {
           0%   { transform: scaleY(1); opacity: 1; }
@@ -1138,14 +1111,8 @@ export default function Hero() {
           100% { top: 100%; opacity: 0; }
         }
         @keyframes pillCardIn {
-          from {
-            opacity: 0;
-            transform: translateY(32px) scale(0.96);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+          from { opacity: 0; transform: translateY(32px) scale(0.96); }
+          to   { opacity: 1; transform: translateY(0) scale(1); }
         }
         @keyframes cursorBlink {
           0%, 100% { opacity: 1; }
@@ -1159,11 +1126,82 @@ export default function Hero() {
           0%, 100% { opacity: 0.3; transform: translateY(0); }
           50%       { opacity: 1;   transform: translateY(4px); }
         }
+
+        /* ── TABLET ── */
         @media (max-width: 900px) {
           .pillars-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
-        @media (max-width: 520px) {
-          .pillars-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+          /* Decorative noise hidden on mobile */
+          .hero-geo-topleft,
+          .hero-geo-bottomright,
+          .hero-dots-tr,
+          .hero-dots-bl,
+          .hero-vline { display: none !important; }
+
+          /* Full viewport, space-between so content breathes top-to-bottom */
+          .hero-content {
+            justify-content: space-between !important;
+            padding: 56px 20px 32px !important;
+            min-height: 100dvh;
+          }
+
+          /* Logo — bigger, centered, no negative margins */
+          .hero-logo-wrap {
+            width: 72vw !important;
+            max-width: 300px !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+          }
+
+          /* Headlines — tighter, mobile-scale font */
+          .hero-headline-1 h1 {
+            font-size: clamp(32px, 8.5vw, 44px) !important;
+            gap: 4px !important;
+            line-height: 1.35 !important;
+          }
+          .hero-headline-2 h1 {
+            font-size: clamp(28px, 7.5vw, 40px) !important;
+            line-height: 1.35 !important;
+          }
+          .hero-headline-2 h1 span {
+            font-size: clamp(32px, 8vw, 44px) !important;
+          }
+          .hero-headline-2 {
+            margin-bottom: 24px !important;
+          }
+
+          /* Pillars label smaller */
+          .pillars-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 10px !important;
+          }
+
+          /* Pillar cards — compact */
+          .pillars-grid > div {
+            padding: 18px 12px 16px !important;
+            gap: 8px !important;
+            border-radius: 14px !important;
+          }
+
+          /* CTAs — full width, stacked */
+          .hero-ctas {
+            flex-direction: column !important;
+            width: 100% !important;
+            gap: 10px !important;
+            margin-bottom: 0 !important;
+          }
+          .hero-ctas a {
+            width: 100% !important;
+            justify-content: center !important;
+            padding: 16px 24px !important;
+            font-size: 17px !important;
+          }
+
+          /* Scroll indicator hidden on mobile — space is precious */
+          .hero-scroll { display: none !important; }
         }
       `}</style>
     </section>
