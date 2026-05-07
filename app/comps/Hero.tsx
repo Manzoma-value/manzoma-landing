@@ -1188,11 +1188,9 @@ export default function Hero() {
 
           /* CTAs — full width, stacked */
           .hero-ctas {
-            flex-direction: column !important;
-            width: 100% !important;
-            gap: 10px !important;
-            margin-bottom: 0 !important;
-          }
+            
+    display: none !important;
+  }
           .hero-ctas a {
             width: 100% !important;
             justify-content: center !important;
