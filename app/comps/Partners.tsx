@@ -18,6 +18,7 @@ const C = {
 
 const accents = [C.petroleum, C.gold, C.crimson, C.rose, C.petroleum, C.gold];
 
+// جمعية انسان removed
 const partners = [
   {
     id: 1,
@@ -49,13 +50,6 @@ const partners = [
   },
   {
     id: 5,
-    name: "جمعية انسان",
-    logo: "/insan.png",
-    url: "https://ensan.org.sa/",
-    desc: "شريك رعاية المعرفة التطويرية",
-  },
-  {
-    id: 6,
     name: "الندوة العالمية للشباب الإسلامي",
     logo: "/wamy.png",
     url: "https://o.wamy.org/",
@@ -88,7 +82,6 @@ function useInView(threshold = 0.08) {
 export default function Partners() {
   const { ref, inView } = useInView();
   const [active, setActive] = useState<number | null>(null);
-  // Burst: starts false, flips true 600ms after inView (center node needs to appear first)
   const [burst, setBurst] = useState(false);
 
   useEffect(() => {
@@ -114,27 +107,26 @@ export default function Partners() {
         overflow: "hidden",
       }}
     >
-      {/* Faint grid */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
-          backgroundImage: `
-          linear-gradient(${C.petroleum}04 1px, transparent 1px),
-          linear-gradient(90deg, ${C.petroleum}04 1px, transparent 1px)
-        `,
+          backgroundImage: `linear-gradient(${C.petroleum}04 1px, transparent 1px), linear-gradient(90deg, ${C.petroleum}04 1px, transparent 1px)`,
           backgroundSize: "56px 56px",
         }}
       />
 
-      {/* ── HEADER ── */}
+      {/* ══════════════════════════════════════════
+          HEADER
+      ══════════════════════════════════════════ */}
       <div
+        className="partners-header"
         style={{
           background: C.white,
           borderBottom: `1px solid ${C.border}`,
-          padding: "56px 24px 48px",
+          padding: "80px 24px 72px",
           position: "relative",
           zIndex: 10,
         }}
@@ -165,7 +157,6 @@ export default function Partners() {
             userSelect: "none",
             pointerEvents: "none",
             whiteSpace: "nowrap",
-            marginTop: -40,
           }}
         >
           06
@@ -203,7 +194,7 @@ export default function Partners() {
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: 700,
                 color: C.petroleum,
                 letterSpacing: "5px",
@@ -227,7 +218,7 @@ export default function Partners() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(44px,5.5vw,80px)",
-                  fontWeight: 800,
+                  fontWeight: 900,
                   color: C.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
@@ -272,8 +263,8 @@ export default function Partners() {
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 32,
-                    fontWeight: 700,
+                    fontSize: 22,
+                    fontWeight: 900,
                     color: C.petroleum,
                     margin: 0,
                     lineHeight: 1.6,
@@ -288,7 +279,7 @@ export default function Partners() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 16,
-                  fontWeight: 600,
+                  fontWeight: 500,
                   color: C.inkSoft,
                   margin: 0,
                   lineHeight: 1.95,
@@ -303,27 +294,26 @@ export default function Partners() {
       </div>
 
       {/* ══════════════════════════════════════════
-          DESKTOP — Constellation with burst animation
+          DESKTOP — Constellation fits in viewport
       ══════════════════════════════════════════ */}
       <div
         className="partners-desktop"
         style={{
           position: "relative",
           zIndex: 10,
-          maxWidth: 900,
+          maxWidth: 860,
           margin: "0 auto",
-          padding: "80px 24px 40px",
+          padding: "48px 24px 32px",
         }}
       >
         <div
           style={{
             position: "relative",
             width: "100%",
-            paddingBottom: "90%",
+            paddingBottom: "85%",
             ...vis(300),
           }}
         >
-          {/* SVG rings + lines */}
           <svg
             style={{
               position: "absolute",
@@ -343,8 +333,6 @@ export default function Partners() {
                 </feMerge>
               </filter>
             </defs>
-
-            {/* Outer dashed ring — fades in */}
             <circle
               cx="50%"
               cy="50%"
@@ -358,7 +346,6 @@ export default function Partners() {
                 transition: "opacity 0.8s ease 200ms",
               }}
             />
-            {/* Inner ring */}
             <circle
               cx="50%"
               cy="50%"
@@ -371,8 +358,6 @@ export default function Partners() {
                 transition: "opacity 0.8s ease 400ms",
               }}
             />
-
-            {/* Spokes — draw in after burst */}
             {partners.map((_, i) => {
               const pos = getPos(i, partners.length, 43);
               const isActive = active === i;
@@ -395,8 +380,6 @@ export default function Partners() {
                 />
               );
             })}
-
-            {/* Connecting ring between nodes */}
             {partners.map((_, i) => {
               const p1 = getPos(i, partners.length, 43);
               const p2 = getPos((i + 1) % partners.length, partners.length, 43);
@@ -420,10 +403,16 @@ export default function Partners() {
                 />
               );
             })}
-
-            {/* Center gold dot */}
-
-            {/* Animated travelling dot on active spoke */}
+            <circle
+              cx="50%"
+              cy="50%"
+              r="4"
+              fill={C.gold}
+              style={{
+                opacity: inView ? 1 : 0,
+                transition: "opacity 0.6s ease 500ms",
+              }}
+            />
             {active !== null &&
               (() => {
                 const pos = getPos(active, partners.length, 43);
@@ -439,7 +428,7 @@ export default function Partners() {
               })()}
           </svg>
 
-          {/* ── CENTER — Manzoma logo ── */}
+          {/* Center — Manzoma */}
           <div
             style={{
               position: "absolute",
@@ -447,23 +436,21 @@ export default function Partners() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: 20,
-              // Center node appears first — before burst
               opacity: inView ? 1 : 0,
-              transition:
-                "opacity 0.7s ease 200ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) 200ms",
+              transition: "opacity 0.7s ease 200ms",
             }}
           >
             <div
               style={{
-                width: 180,
-                height: 180,
+                width: 170,
+                height: 170,
                 borderRadius: "50%",
                 background: C.white,
                 border: `1.5px solid ${C.border}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: `0 0 0 14px ${C.offwhite}, 0 0 0 15px ${C.border}, 0 24px 64px rgba(1,90,98,0.14)`,
+                boxShadow: `0 0 0 12px ${C.offwhite}, 0 0 0 13px ${C.border}, 0 20px 56px rgba(1,90,98,0.14)`,
                 position: "relative",
                 overflow: "hidden",
               }}
@@ -479,10 +466,19 @@ export default function Partners() {
                   backgroundSize: "10px 10px",
                 }}
               />
-
               <div
                 style={{
-                  width: 150,
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  height: 3,
+                  background: C.gold,
+                }}
+              />
+              <div
+                style={{
+                  width: 135,
                   overflow: "hidden",
                   marginTop: "-8%",
                   marginBottom: "-8%",
@@ -493,8 +489,8 @@ export default function Partners() {
                 <Image
                   src="/logo2.png"
                   alt="منظومة"
-                  width={300}
-                  height={135}
+                  width={270}
+                  height={122}
                   style={{
                     objectFit: "contain",
                     width: "100%",
@@ -506,17 +502,12 @@ export default function Partners() {
             </div>
           </div>
 
-          {/* ── PARTNER NODES — burst from center ── */}
+          {/* Partner nodes */}
           {partners.map((p, i) => {
             const pos = getPos(i, partners.length, 43);
             const isActive = active === i;
             const acc = accents[i];
-
-            // Before burst: node sits at center (translate to 50%,50% = 0 offset from center)
-            // After burst: node moves to its orbital position
-            // We achieve this by animating the `left` and `top` via transform
-            const burstDelay = 700 + i * 80; // stagger each node
-
+            const burstDelay = 700 + i * 80;
             return (
               <a
                 key={p.id}
@@ -527,36 +518,26 @@ export default function Partners() {
                 onMouseLeave={() => setActive(null)}
                 style={{
                   position: "absolute",
-                  // Always positioned at the final orbital spot
                   left: `${pos.x}%`,
                   top: `${pos.y}%`,
                   zIndex: 15,
                   textDecoration: "none",
-
-                  // Before burst: pull back to center using translate offset
-                  // After burst: translate only -50%,-50% (normal centering)
                   transform: burst
                     ? `translate(-50%, -50%) scale(${isActive ? 1.08 : 1})`
                     : `translate(calc(-50% + ${(50 - pos.x) * 3.5}px), calc(-50% + ${(50 - pos.y) * 3.5}px)) scale(0.3)`,
-
                   opacity: burst ? 1 : 0,
                   transition: [
                     `transform 0.9s cubic-bezier(0.16,1,0.3,1) ${burstDelay}ms`,
                     `opacity 0.5s ease ${burstDelay - 100}ms`,
-                    // hover scale stays fast
-                    isActive ? "transform 0.35s cubic-bezier(0.4,0,0.2,1)" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(", "),
+                  ].join(", "),
                 }}
               >
-                {/* Glow ring */}
                 <div
                   style={{
                     position: "absolute",
                     top: "50%",
                     left: "50%",
-                    transform: "translate(-50%, -50%)",
+                    transform: "translate(-50%,-50%)",
                     width: isActive ? 120 : 88,
                     height: isActive ? 120 : 88,
                     borderRadius: "50%",
@@ -565,13 +546,11 @@ export default function Partners() {
                     pointerEvents: "none",
                   }}
                 />
-
-                {/* Card */}
                 <div
                   style={{
-                    width: 120,
-                    height: 120,
-                    borderRadius: 20,
+                    width: 110,
+                    height: 110,
+                    borderRadius: 18,
                     background: C.white,
                     border: `1.5px solid ${isActive ? acc : C.border}`,
                     display: "flex",
@@ -604,10 +583,10 @@ export default function Partners() {
                       <div
                         style={{
                           position: "absolute",
-                          top: 6,
-                          right: 6,
-                          width: 10,
-                          height: 10,
+                          top: 5,
+                          right: 5,
+                          width: 9,
+                          height: 9,
                           borderTop: `2px solid ${C.gold}`,
                           borderRight: `2px solid ${C.gold}`,
                           borderRadius: "0 4px 0 0",
@@ -616,10 +595,10 @@ export default function Partners() {
                       <div
                         style={{
                           position: "absolute",
-                          bottom: 6,
-                          left: 6,
-                          width: 10,
-                          height: 10,
+                          bottom: 5,
+                          left: 5,
+                          width: 9,
+                          height: 9,
                           borderBottom: `2px solid ${C.gold}`,
                           borderLeft: `2px solid ${C.gold}`,
                           borderRadius: "0 0 4px 0",
@@ -629,8 +608,8 @@ export default function Partners() {
                   )}
                   <div
                     style={{
-                      width: 120,
-                      height: 120,
+                      width: 110,
+                      height: 110,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -641,8 +620,8 @@ export default function Partners() {
                     <Image
                       src={p.logo}
                       alt={p.name}
-                      width={40}
-                      height={40}
+                      width={38}
+                      height={38}
                       style={{
                         objectFit: "contain",
                         width: "100%",
@@ -651,12 +630,11 @@ export default function Partners() {
                     />
                   </div>
                 </div>
-
                 {/* Tooltip */}
                 <div
                   style={{
                     position: "absolute",
-                    top: "calc(100% + 12px)",
+                    top: "calc(100% + 10px)",
                     left: "50%",
                     transform: "translateX(-50%)",
                     opacity: isActive ? 1 : 0,
@@ -669,8 +647,8 @@ export default function Partners() {
                   <div
                     style={{
                       background: C.petroleum,
-                      borderRadius: 12,
-                      padding: "10px 16px",
+                      borderRadius: 10,
+                      padding: "8px 14px",
                       boxShadow: `0 12px 40px ${C.petroleum}30`,
                       textAlign: "center",
                       position: "relative",
@@ -694,14 +672,14 @@ export default function Partners() {
                         display: "flex",
                         alignItems: "center",
                         gap: 6,
-                        marginBottom: 3,
+                        marginBottom: 2,
                         justifyContent: "center",
                       }}
                     >
                       <div
                         style={{
-                          width: 5,
-                          height: 5,
+                          width: 4,
+                          height: 4,
                           borderRadius: "50%",
                           background: C.gold,
                         }}
@@ -709,7 +687,7 @@ export default function Partners() {
                       <span
                         style={{
                           fontFamily: "'Beiruti', sans-serif",
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: 800,
                           color: C.gold,
                         }}
@@ -720,7 +698,7 @@ export default function Partners() {
                     <p
                       style={{
                         fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 11,
+                        fontSize: 10,
                         fontWeight: 500,
                         color: "rgba(255,255,255,0.7)",
                         margin: 0,
@@ -737,294 +715,14 @@ export default function Partners() {
       </div>
 
       {/* ══════════════════════════════════════════
-          MOBILE — Cards fade + slide up with stagger
+          BOTTOM STRIP — desktop only
       ══════════════════════════════════════════ */}
       <div
-        className="partners-mobile"
-        style={{
-          display: "none",
-          padding: "52px 20px 20px",
-          position: "relative",
-          zIndex: 10,
-        }}
-      >
-        {/* Manzoma badge */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginBottom: 8,
-            ...vis(180),
-          }}
-        >
-          <div
-            style={{
-              width: 130,
-              height: 130,
-              borderRadius: "50%",
-              background: C.white,
-              border: `1.5px solid ${C.border}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: `0 0 0 10px ${C.offwhite}, 0 0 0 11px ${C.border}, 0 16px 48px rgba(1,90,98,0.1)`,
-              position: "relative",
-              overflow: "hidden",
-              flexShrink: 0,
-            }}
-          >
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                inset: 0,
-                pointerEvents: "none",
-                borderRadius: "50%",
-                backgroundImage: `radial-gradient(${C.petroleum}06 1px, transparent 1px)`,
-                backgroundSize: "10px 10px",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                left: 0,
-                height: 3,
-                background: C.gold,
-              }}
-            />
-            <div
-              style={{
-                width: 105,
-                overflow: "hidden",
-                marginTop: "-8%",
-                marginBottom: "-8%",
-                position: "relative",
-                zIndex: 1,
-              }}
-            >
-              <Image
-                src="/logo2.png"
-                alt="منظومة"
-                width={210}
-                height={95}
-                style={{
-                  objectFit: "contain",
-                  width: "100%",
-                  height: "auto",
-                  display: "block",
-                }}
-              />
-            </div>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              margin: "12px 0",
-            }}
-          >
-            <div
-              style={{
-                width: 1,
-                height: 28,
-                background: `linear-gradient(to bottom, ${C.gold}, ${C.border})`,
-              }}
-            />
-            <div
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: "50%",
-                background: C.gold,
-                marginTop: -2,
-              }}
-            />
-          </div>
-          <p
-            style={{
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontSize: 9,
-              fontWeight: 700,
-              color: C.inkMuted,
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              margin: 0,
-            }}
-          >
-            شركاء النجاح
-          </p>
-        </div>
-
-        {/* Partner cards — staggered fade + slide */}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            marginTop: 28,
-          }}
-        >
-          {partners.map((p, i) => (
-            <a
-              key={p.id}
-              href={p.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                textDecoration: "none",
-                display: "flex",
-                alignItems: "center",
-                gap: 16,
-                background: C.white,
-                border: `1.5px solid ${C.border}`,
-                borderRadius: 20,
-                padding: "16px 18px",
-                position: "relative",
-                overflow: "hidden",
-                boxShadow: "0 4px 16px rgba(1,90,98,0.05)",
-                // Staggered fade-slide from right (RTL direction)
-                opacity: inView ? 1 : 0,
-                transform: inView ? "translateX(0)" : "translateX(32px)",
-                transition: `opacity 0.7s ease ${400 + i * 100}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${400 + i * 100}ms`,
-              }}
-              onTouchStart={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = accents[i];
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  `0 8px 28px ${accents[i]}20`;
-              }}
-              onTouchEnd={(e) => {
-                (e.currentTarget as HTMLElement).style.borderColor = C.border;
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  "0 4px 16px rgba(1,90,98,0.05)";
-              }}
-            >
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  bottom: 0,
-                  width: 4,
-                  background: accents[i],
-                  borderRadius: "0 20px 20px 0",
-                }}
-              />
-              <div
-                style={{
-                  width: 64,
-                  height: 64,
-                  borderRadius: 16,
-                  flexShrink: 0,
-                  background: `${accents[i]}08`,
-                  border: `1.5px solid ${accents[i]}25`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  src={p.logo}
-                  alt={p.name}
-                  width={48}
-                  height={48}
-                  style={{ objectFit: "contain", width: "75%", height: "75%" }}
-                />
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    marginBottom: 4,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 5,
-                      height: 5,
-                      borderRadius: "50%",
-                      background: accents[i],
-                      flexShrink: 0,
-                    }}
-                  />
-                  <p
-                    style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: accents[i],
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      margin: 0,
-                    }}
-                  >
-                    PARTNER 0{i + 1}
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 16,
-                    fontWeight: 800,
-                    color: C.ink,
-                    margin: "0 0 3px",
-                    lineHeight: 1.3,
-                  }}
-                >
-                  {p.name}
-                </p>
-                <p
-                  style={{
-                    fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 13,
-                    fontWeight: 500,
-                    color: C.inkMuted,
-                    margin: 0,
-                  }}
-                >
-                  {p.desc}
-                </p>
-              </div>
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 10,
-                  flexShrink: 0,
-                  background: `${accents[i]}10`,
-                  border: `1.5px solid ${accents[i]}30`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-                  <path
-                    d="M10 6.5H3M3 6.5L6.5 3M3 6.5L6.5 10"
-                    stroke={accents[i]}
-                    strokeWidth="1.7"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* ── BOTTOM STRIP ── */}
-      <div
+        className="partners-strip-wrapper"
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "0 24px 80px",
+          padding: "0 24px 64px",
           ...vis(800),
         }}
       >
@@ -1052,7 +750,7 @@ export default function Partners() {
               style={{
                 textDecoration: "none",
                 background: active === i ? accents[i] : C.white,
-                padding: "22px 12px",
+                padding: "20px 12px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -1075,8 +773,8 @@ export default function Partners() {
               />
               <div
                 style={{
-                  width: 52,
-                  height: 52,
+                  width: 48,
+                  height: 48,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -1087,8 +785,8 @@ export default function Partners() {
                 <Image
                   src={p.logo}
                   alt={p.name}
-                  width={44}
-                  height={44}
+                  width={40}
+                  height={40}
                   style={{
                     objectFit: "contain",
                     width: "100%",
@@ -1115,16 +813,289 @@ export default function Partners() {
         </div>
       </div>
 
+      {/* ══════════════════════════════════════════
+          MOBILE — header fills screen 1,
+          then partner cards fill screen 2
+      ══════════════════════════════════════════ */}
+      <div className="partners-mobile" style={{ display: "none" }}>
+        {/* MOBILE SCREEN 2 — Manzoma badge + 5 partner cards = 100svh */}
+        <div
+          style={{
+            height: "100svh",
+            display: "flex",
+            flexDirection: "column",
+            background: C.offwhite,
+            overflow: "hidden",
+          }}
+        >
+          {/* Manzoma badge — fixed 22% */}
+          <div
+            style={{
+              height: "22%",
+              flexShrink: 0,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              borderBottom: `1px solid ${C.border}`,
+              background: C.white,
+              opacity: inView ? 1 : 0,
+              transition: "opacity 0.7s ease 200ms",
+            }}
+          >
+            <div
+              style={{
+                width: 90,
+                height: 90,
+                borderRadius: "50%",
+                background: C.white,
+                border: `1.5px solid ${C.border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: `0 0 0 8px ${C.offwhite}, 0 0 0 9px ${C.border}, 0 12px 36px rgba(1,90,98,0.1)`,
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  height: 3,
+                  background: C.gold,
+                }}
+              />
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  borderRadius: "50%",
+                  backgroundImage: `radial-gradient(${C.petroleum}06 1px, transparent 1px)`,
+                  backgroundSize: "8px 8px",
+                }}
+              />
+              <div
+                style={{
+                  width: 72,
+                  overflow: "hidden",
+                  marginTop: "-8%",
+                  marginBottom: "-8%",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                <Image
+                  src="/logo2.png"
+                  alt="منظومة"
+                  width={144}
+                  height={65}
+                  style={{
+                    objectFit: "contain",
+                    width: "100%",
+                    height: "auto",
+                    display: "block",
+                  }}
+                />
+              </div>
+            </div>
+            {/* Connector */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginTop: 8,
+              }}
+            >
+              <div
+                style={{
+                  width: 1,
+                  height: 14,
+                  background: `linear-gradient(to bottom, ${C.gold}, ${C.border})`,
+                }}
+              />
+              <div
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: C.gold,
+                  marginTop: -2,
+                }}
+              />
+            </div>
+          </div>
+
+          {/* 5 partner rows — fill remaining 78% equally */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            {partners.map((p, i) => (
+              <a
+                key={p.id}
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  flex: 1,
+                  textDecoration: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  padding: "0 24px",
+                  background: C.white,
+                  borderBottom:
+                    i < partners.length - 1 ? `1px solid ${C.border}` : "none",
+                  position: "relative",
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? "translateX(0)" : "translateX(24px)",
+                  transition: `opacity 0.7s ease ${350 + i * 80}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${350 + i * 80}ms`,
+                }}
+                onTouchStart={(e) => {
+                  (e.currentTarget as HTMLElement).style.background =
+                    `${accents[i]}08`;
+                }}
+                onTouchEnd={(e) => {
+                  (e.currentTarget as HTMLElement).style.background = C.white;
+                }}
+              >
+                {/* Accent right bar */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    width: 4,
+                    background: accents[i],
+                    borderRadius: "0 0 0 0",
+                  }}
+                />
+
+                {/* Logo box */}
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 14,
+                    flexShrink: 0,
+                    background: `${accents[i]}08`,
+                    border: `1.5px solid ${accents[i]}25`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Image
+                    src={p.logo}
+                    alt={p.name}
+                    width={38}
+                    height={38}
+                    style={{
+                      objectFit: "contain",
+                      width: "72%",
+                      height: "72%",
+                    }}
+                  />
+                </div>
+
+                {/* Text */}
+                <div style={{ flex: 1 }}>
+                  <p
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: accents[i],
+                      letterSpacing: "2px",
+                      textTransform: "uppercase",
+                      margin: "0 0 3px",
+                    }}
+                  >
+                    PARTNER 0{i + 1}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Beiruti', sans-serif",
+                      fontSize: 16,
+                      fontWeight: 800,
+                      color: C.ink,
+                      margin: "0 0 2px",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {p.name}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Beiruti', sans-serif",
+                      fontSize: 12,
+                      fontWeight: 400,
+                      color: C.inkMuted,
+                      margin: 0,
+                    }}
+                  >
+                    {p.desc}
+                  </p>
+                </div>
+
+                {/* Arrow */}
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: 9,
+                    flexShrink: 0,
+                    background: `${accents[i]}10`,
+                    border: `1.5px solid ${accents[i]}25`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M9 6H3M3 6L6 3M3 6L6 9"
+                      stroke={accents[i]}
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <style>{`
-        .partners-desktop { display: block; }
-        .partners-mobile  { display: none !important; }
+        /* ── DESKTOP ── */
+        .partners-desktop      { display: block; }
+        .partners-mobile       { display: none !important; }
+        .partners-strip-wrapper{ display: block; }
+
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
-          .partners-desktop { display: none !important; }
-          .partners-mobile  { display: block !important; }
-          .partners-strip   { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-        @media (max-width: 480px) {
-          .partners-strip { grid-template-columns: repeat(2, 1fr) !important; }
+          .partners-desktop       { display: none  !important; }
+          .partners-mobile        { display: block !important; }
+          .partners-strip-wrapper { display: none  !important; }
+
+          /* Header fills full screen */
+          .partners-header {
+            height: 100svh;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+          }
+          .partners-header > div:nth-child(3) {
+            padding: 0 24px !important;
+          }
         }
       `}</style>
     </section>

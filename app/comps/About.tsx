@@ -102,7 +102,6 @@ export default function About() {
           overflow: "hidden",
         }}
       >
-        {/* 4-color top line */}
         <div
           style={{
             position: "absolute",
@@ -113,8 +112,6 @@ export default function About() {
             background: `linear-gradient(to left, ${C.rose}, ${C.crimson}, ${C.gold}, ${C.petroleum})`,
           }}
         />
-
-        {/* Watermark — hidden on mobile */}
         <div
           aria-hidden
           className="about-watermark"
@@ -171,7 +168,6 @@ export default function About() {
                   WHO WE ARE
                 </span>
               </div>
-
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
@@ -213,7 +209,10 @@ export default function About() {
             </div>
 
             {/* Body */}
-            <div style={{ paddingBottom: 8, ...vis(260) }}>
+            <div
+              className="about-header-body-col"
+              style={{ paddingBottom: 8, ...vis(260) }}
+            >
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
@@ -234,7 +233,7 @@ export default function About() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(14px, 1.8vw, 16px)",
-                  fontWeight: 800,
+                  fontWeight: 400,
                   color: C.inkMuted,
                   lineHeight: 2,
                   margin: 0,
@@ -250,7 +249,6 @@ export default function About() {
 
       {/* ══════════════════════════════
           STAT BOXES
-          Horizontal scroll on mobile
       ══════════════════════════════ */}
       <div className="stat-scroll-wrapper">
         <div className="stat-boxes-grid" style={{ background: C.border }}>
@@ -274,7 +272,6 @@ export default function About() {
                   background: s.accent,
                 }}
               />
-
               <p
                 style={{
                   fontFamily: "Helvetica, Arial, sans-serif",
@@ -329,9 +326,10 @@ export default function About() {
       </div>
 
       {/* ══════════════════════════════
-          PART 2 — KEY POINTS + CARD
+          PART 2 — DESKTOP: key points + identity card
       ══════════════════════════════ */}
       <div
+        className="about-part2-desktop"
         style={{
           background: C.offwhite,
           borderBottom: `1px solid ${C.border}`,
@@ -340,7 +338,7 @@ export default function About() {
         <div className="about-body-grid">
           {/* Key points */}
           <div>
-            <div style={{ marginBottom: 28, ...vis(500) }}>
+            <div style={{ marginBottom: -2, ...vis(500) }}>
               <div
                 style={{
                   display: "flex",
@@ -369,7 +367,7 @@ export default function About() {
                   fontSize: "clamp(24px, 3vw, 32px)",
                   fontWeight: 700,
                   color: C.ink,
-                  margin: 0,
+                  marginBottom: -10,
                 }}
               >
                 محاور عملنا
@@ -399,7 +397,6 @@ export default function About() {
                     cursor: "default",
                   }}
                 >
-                  {/* Number badge */}
                   <div
                     style={{
                       width: 48,
@@ -430,8 +427,6 @@ export default function About() {
                       0{i + 1}
                     </span>
                   </div>
-
-                  {/* Arabic text */}
                   <span
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
@@ -444,8 +439,6 @@ export default function About() {
                   >
                     {p.ar}
                   </span>
-
-                  {/* English label — hidden on very small screens via CSS */}
                   <span
                     className="key-point-en"
                     style={{
@@ -478,11 +471,10 @@ export default function About() {
                 boxShadow: "0 24px 64px rgba(13,31,33,0.07)",
               }}
             >
-              {/* Card header */}
               <div
                 style={{
                   background: C.petroleum,
-                  padding: "clamp(28px, 5vw, 44px) clamp(24px, 5vw, 40px)",
+                  padding: "clamp(28px,5vw,44px) clamp(24px,5vw,40px)",
                   position: "relative",
                   overflow: "hidden",
                 }}
@@ -563,8 +555,6 @@ export default function About() {
                   }}
                 />
               </div>
-
-              {/* Card rows */}
               <div className="card-rows">
                 {[
                   {
@@ -607,8 +597,6 @@ export default function About() {
                     </p>
                   </div>
                 ))}
-
-                {/* 4-color badge */}
                 <div style={{ padding: "24px 0" }}>
                   <div
                     style={{
@@ -670,9 +658,371 @@ export default function About() {
         </div>
       </div>
 
-      <style>{`
+      {/* ══════════════════════════════
+          MOBILE PART 2 — full-width blocks
+          Replaces the two-column grid entirely
+      ══════════════════════════════ */}
+      <div
+        className="about-part2-mobile"
+        style={{ display: "none", background: C.offwhite }}
+      >
+        {/* ── BLOCK 3: CORE PILLARS — 100svh ── */}
+        <div
+          style={{
+            height: "100svh",
+            display: "flex",
+            flexDirection: "column",
+            borderBottom: `1px solid ${C.border}`,
+            background: C.white,
+          }}
+        >
+          {/* Header label — fixed portion */}
+          <div
+            style={{
+              padding: "0 24px",
+              flex: "0 0 auto",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              height: "22%",
+              borderBottom: `1px solid ${C.border}`,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 8,
+              }}
+            >
+              <div style={{ width: 22, height: 1, background: C.gold }} />
+              <span
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: C.gold,
+                  letterSpacing: "3px",
+                  textTransform: "uppercase",
+                }}
+              >
+                CORE PILLARS
+              </span>
+            </div>
+            <h3
+              style={{
+                fontFamily: "'Beiruti', sans-serif",
+                fontSize: 28,
+                fontWeight: 800,
+                color: C.ink,
+                margin: 0,
+              }}
+            >
+              محاور عملنا
+            </h3>
+          </div>
 
-        /* ── HEADER ── */
+          {/* Pillar rows — each takes equal share of remaining 78% */}
+          <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            {keyPoints.map((p, i) => (
+              <div
+                key={i}
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 16,
+                  padding: "0 24px",
+                  borderBottom:
+                    i < keyPoints.length - 1 ? `1px solid ${C.border}` : "none",
+                  position: "relative",
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? "translateX(0)" : "translateX(20px)",
+                  transition: `opacity 0.7s ease ${400 + i * 90}ms, transform 0.7s ease ${400 + i * 90}ms`,
+                }}
+              >
+                {/* Accent right bar */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bottom: 0,
+                    width: 4,
+                    background: p.accent,
+                  }}
+                />
+
+                {/* Number badge */}
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 14,
+                    flexShrink: 0,
+                    background: `${p.accent}10`,
+                    border: `1.5px solid ${p.accent}30`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 14,
+                      fontWeight: 900,
+                      color: p.accent,
+                    }}
+                  >
+                    0{i + 1}
+                  </span>
+                </div>
+
+                {/* Text */}
+                <div style={{ flex: 1 }}>
+                  <p
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 8,
+                      fontWeight: 700,
+                      color: p.accent,
+                      letterSpacing: "2px",
+                      textTransform: "uppercase",
+                      margin: "0 0 4px",
+                    }}
+                  >
+                    {p.en}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Beiruti', sans-serif",
+                      fontSize: 19,
+                      fontWeight: 700,
+                      color: C.ink,
+                      margin: 0,
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    {p.ar}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── BLOCK 4: IDENTITY CARD — 100svh ── */}
+        <div
+          style={{
+            height: "100svh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "0 24px",
+            background: C.offwhite,
+          }}
+        >
+          <div
+            style={{
+              background: C.white,
+              borderRadius: 20,
+              border: `1px solid ${C.border}`,
+              overflow: "hidden",
+              boxShadow: "0 12px 40px rgba(13,31,33,0.06)",
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(20px)",
+              transition: "opacity 0.8s ease 600ms, transform 0.8s ease 600ms",
+            }}
+          >
+            {/* Petroleum header */}
+            <div
+              style={{
+                background: C.petroleum,
+                padding: "32px 24px",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  pointerEvents: "none",
+                  backgroundImage:
+                    "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
+                  backgroundSize: "18px 18px",
+                }}
+              />
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  height: 3,
+                  background: C.gold,
+                }}
+              />
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  bottom: -40,
+                  left: -40,
+                  width: 140,
+                  height: 140,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  pointerEvents: "none",
+                }}
+              />
+              <p
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: "rgba(255,255,255,0.3)",
+                  letterSpacing: "5px",
+                  textTransform: "uppercase",
+                  margin: "0 0 12px",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                ESTABLISHED
+              </p>
+              <p
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 80,
+                  fontWeight: 900,
+                  color: C.white,
+                  margin: 0,
+                  lineHeight: 1,
+                  letterSpacing: -5,
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                2024
+              </p>
+              <div
+                style={{
+                  width: 36,
+                  height: 2,
+                  background: C.gold,
+                  borderRadius: 2,
+                  marginTop: 14,
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              />
+            </div>
+
+            {/* Rows */}
+            <div style={{ padding: "0 24px" }}>
+              {[
+                { en: "SPECIALIZATION", ar: "بناء النماذج والمنتجات المعرفية" },
+                { en: "SECTOR", ar: "التعليم والاستثمار المعرفي" },
+              ].map((row, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: "20px 0",
+                    borderBottom: `1px solid ${C.borderSoft}`,
+                  }}
+                >
+                  <p
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: C.inkMuted,
+                      letterSpacing: "3px",
+                      textTransform: "uppercase",
+                      margin: "0 0 8px",
+                    }}
+                  >
+                    {row.en}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Beiruti', sans-serif",
+                      fontSize: 17,
+                      fontWeight: 800,
+                      color: C.ink,
+                      margin: 0,
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {row.ar}
+                  </p>
+                </div>
+              ))}
+              {/* 4-color badge */}
+              <div style={{ padding: "20px 0" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
+                    background: C.offwhite,
+                    border: `1px solid ${C.border}`,
+                    borderRadius: 12,
+                    padding: "14px 16px",
+                  }}
+                >
+                  <div style={{ display: "flex", gap: 5 }}>
+                    {[C.petroleum, C.gold, C.crimson, C.rose].map((col, j) => (
+                      <div
+                        key={j}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: col,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <div>
+                    <p
+                      style={{
+                        fontFamily: "'Beiruti', sans-serif",
+                        fontSize: 15,
+                        fontWeight: 800,
+                        color: C.ink,
+                        margin: "0 0 2px",
+                      }}
+                    >
+                      منظومة المعرفية
+                    </p>
+                    <p
+                      style={{
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontSize: 9,
+                        fontWeight: 600,
+                        color: C.inkMuted,
+                        margin: 0,
+                        letterSpacing: "2px",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Manzoma Knowledge Co.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        /* ── DESKTOP & TABLET ── */
         .about-header { padding: 72px 20px 64px; }
         .about-header-inner { padding: 0 4px; }
         .about-header-grid {
@@ -681,11 +1031,7 @@ export default function About() {
           gap: 56px;
           align-items: end;
         }
-
-        /* ── STAT BOXES ── */
-        .stat-scroll-wrapper {
-          /* On desktop: no scroll — just a grid wrapper */
-        }
+        .stat-scroll-wrapper {}
         .stat-boxes-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -693,8 +1039,8 @@ export default function About() {
           border-bottom: 1px solid ${C.border};
         }
         .stat-box { padding: 44px 44px; }
-
-        /* ── BODY ── */
+        .about-part2-desktop { display: block; }
+        .about-part2-mobile  { display: none !important; }
         .about-body-grid {
           max-width: 1280px;
           margin: 0 auto;
@@ -708,9 +1054,6 @@ export default function About() {
         .card-rows { padding: 0 36px; }
         .key-point-en { display: inline; }
 
-        /* ════════════════════════════════════════
-           TABLET — 900px
-        ════════════════════════════════════════ */
         @media (max-width: 1100px) {
           .about-body-grid {
             grid-template-columns: 1fr !important;
@@ -721,65 +1064,38 @@ export default function About() {
         }
 
         /* ════════════════════════════════════════
-           MOBILE — 640px
-           Everything designed specifically for
-           a one-column, thumb-friendly layout.
+           MOBILE — every block = 100svh exactly
         ════════════════════════════════════════ */
         @media (max-width: 640px) {
+          .about-watermark    { display: none !important; }
+          .key-point-en       { display: none !important; }
+          .about-part2-desktop{ display: none !important; }
+          .about-part2-mobile { display: block !important; }
 
-          /* Header */
-          .about-header { padding: 52px 20px 48px !important; }
-          .about-header-grid { gap: 32px !important; }
-          .about-watermark { display: none !important; }
-
-          /* Stat boxes — horizontal scroll strip */
-          .stat-scroll-wrapper {
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scroll-snap-type: x mandatory;
-            /* Fade hint on right edge */
-            -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
-            mask-image: linear-gradient(to right, black 85%, transparent 100%);
-          }
-          .stat-boxes-grid {
+          /* BLOCK 1 — "من نحن" header fills full screen */
+          .about-header {
+            height: 100svh;
+            padding: 0 !important;
             display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            border-bottom: 1px solid ${C.border} !important;
+          }
+          .about-header-inner { padding: 0 24px !important; }
+          .about-header-grid {
+            grid-template-columns: 1fr !important;
             gap: 0 !important;
-            width: max-content;
-            border-bottom: none !important;
           }
-          .stat-box {
-            scroll-snap-align: start;
-            min-width: 56vw;
-            padding: 32px 28px !important;
-            border-left: 1px solid ${C.border};
-            border-bottom: 1px solid ${C.border};
-          }
-          .stat-box:first-child { border-right: 1px solid ${C.border}; }
+          .about-header-body-col { display: none !important; }
 
-          /* Body */
-          .about-body-grid {
-            padding: 48px 20px 64px !important;
-            gap: 36px !important;
+          /* BLOCK 2 — stats horizontal scroll, hidden as standalone block */
+          .stat-scroll-wrapper {
+            display: none !important;
           }
-
-          /* Key point rows — tighter on mobile */
-          .key-point-row {
-            gap: 14px !important;
-            padding: 16px 12px !important;
-          }
-          .key-point-en { display: none !important; }
-
-          /* Identity card */
-          .card-rows { padding: 0 20px !important; }
         }
 
-        /* ════════════════════════════════════════
-           VERY SMALL — 380px
-        ════════════════════════════════════════ */
-        @media (max-width: 380px) {
-          .about-header { padding: 44px 16px 40px !important; }
-          .stat-box { min-width: 72vw !important; }
-          .about-body-grid { padding: 40px 16px 56px !important; }
+        @media (max-width: 420px) {
+          .about-header-inner { padding: 0 20px !important; }
         }
       `}</style>
     </section>

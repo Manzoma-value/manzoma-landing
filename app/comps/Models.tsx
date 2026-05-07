@@ -110,6 +110,7 @@ function useInView(threshold = 0.08) {
 export default function Models() {
   const { ref, inView } = useInView();
   const [hovered, setHovered] = useState<number | null>(null);
+  const [mobileActive, setMobileActive] = useState<number | null>(null);
 
   const vis = (delay: number): React.CSSProperties => ({
     opacity: inView ? 1 : 0,
@@ -141,9 +142,10 @@ export default function Models() {
       />
 
       {/* ══════════════════════════════════════════
-          HEADER
+          HEADER — Screen 1 on mobile (100svh)
       ══════════════════════════════════════════ */}
       <div
+        className="models-header"
         style={{
           background: COLORS.white,
           borderBottom: `1px solid ${COLORS.border}`,
@@ -172,7 +174,7 @@ export default function Models() {
             zIndex: 1,
           }}
         >
-          {/* ───── Breadcrumb ───── */}
+          {/* Breadcrumb */}
           <div
             style={{
               display: "flex",
@@ -193,9 +195,7 @@ export default function Models() {
             >
               04
             </span>
-
             <div style={{ width: 40, height: 1, background: COLORS.border }} />
-
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
@@ -210,8 +210,9 @@ export default function Models() {
             </span>
           </div>
 
-          {/* ───── Main Grid ───── */}
+          {/* Main Grid */}
           <div
+            className="models-header-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))",
@@ -219,9 +220,10 @@ export default function Models() {
               alignItems: "start",
             }}
           >
-            {/* ───── Left Title ───── */}
+            {/* Title */}
             <div style={vis(150)}>
               <h2
+                className="models-header-title"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(48px,5.5vw,80px)",
@@ -261,16 +263,17 @@ export default function Models() {
               </h2>
             </div>
 
-            {/* ───── Right Content ───── */}
+            {/* Right copy */}
             <div style={{ paddingBottom: 2, ...vis(280) }}>
-              {/* Highlight Box */}
               <div
                 style={{
                   borderRight: `4px solid ${COLORS.petroleum}`,
                   paddingRight: 24,
+                  marginBottom: 20,
                 }}
               >
                 <p
+                  className="models-header-lead"
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
                     fontSize: 28,
@@ -288,16 +291,15 @@ export default function Models() {
                 </p>
               </div>
 
-              {/* Description */}
               <p
+                className="models-header-desc"
                 style={{
-                  marginTop: 20,
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 18,
                   fontWeight: 500,
                   color: COLORS.inkSoft,
                   lineHeight: 1.9,
-                  marginBottom: 10,
+                  margin: "0 0 24px",
                 }}
               >
                 كل نموذج من نماذج منظومة يمثل منتجًا معرفيًا متكاملًا — مصممًا
@@ -306,14 +308,7 @@ export default function Models() {
               </p>
 
               {/* Stats */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 32,
-                  marginBottom: -25,
-                }}
-              >
+              <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
                 {[
                   { val: "8", label: "نماذج معرفية" },
                   { val: "100%", label: "تخصص معرفي" },
@@ -331,7 +326,6 @@ export default function Models() {
                         }}
                       />
                     )}
-
                     <div style={{ textAlign: "center" }}>
                       <p
                         style={{
@@ -346,7 +340,6 @@ export default function Models() {
                       >
                         {s.val}
                       </p>
-
                       <p
                         style={{
                           fontFamily: "'Beiruti', sans-serif",
@@ -366,10 +359,13 @@ export default function Models() {
           </div>
         </div>
       </div>
+
       {/* ══════════════════════════════════════════
-          FEATURED PRODUCT — هاكاثون الوعي المعرفي
+          FEATURED PRODUCT — desktop layout
+          Hidden on mobile (replaced below)
       ══════════════════════════════════════════ */}
       <div
+        className="hackathon-desktop"
         style={{
           maxWidth: 1280,
           margin: "0 auto",
@@ -450,7 +446,6 @@ export default function Models() {
                 }}
               >
                 <div>
-                  {/* Title */}
                   <h3
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
@@ -468,8 +463,6 @@ export default function Models() {
                       الوعي المعرفي
                     </span>
                   </h3>
-
-                  {/* Gold divider */}
                   <div
                     style={{
                       width: 48,
@@ -479,8 +472,6 @@ export default function Models() {
                       marginBottom: 20,
                     }}
                   />
-
-                  {/* Description */}
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
@@ -494,8 +485,6 @@ export default function Models() {
                     مبادرة معرفية أطلقتها منظومة بالشراكة مع جامعة الملك سعود —
                     تجسيداً حقيقياً لنموذج تحويل المعرفة إلى قيمة مؤسسية مؤثرة.
                   </p>
-
-                  {/* Meta row */}
                   <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
                     {[
                       { label: "الجهة", value: "جامعة الملك سعود" },
@@ -531,8 +520,6 @@ export default function Models() {
                     ))}
                   </div>
                 </div>
-
-                {/* CTA */}
                 <div style={{ marginTop: 40 }}>
                   <div
                     style={{
@@ -572,7 +559,6 @@ export default function Models() {
                   minHeight: 480,
                 }}
               >
-                {/* Petroleum overlay */}
                 <div
                   style={{
                     position: "absolute",
@@ -581,8 +567,6 @@ export default function Models() {
                     zIndex: 1,
                   }}
                 />
-
-                {/* Actual image */}
                 <Image
                   src="/hakathon.png"
                   alt="هاكاثون الوعي المعرفي - منظومة"
@@ -593,8 +577,6 @@ export default function Models() {
                     opacity: 0.6,
                   }}
                 />
-
-                {/* Content overlay */}
                 <div
                   style={{
                     position: "absolute",
@@ -606,7 +588,6 @@ export default function Models() {
                     padding: "40px",
                   }}
                 >
-                  {/* Top — URL chip */}
                   <div
                     style={{
                       display: "inline-flex",
@@ -633,8 +614,6 @@ export default function Models() {
                       hackathonwa3i.online
                     </span>
                   </div>
-
-                  {/* Bottom — title overlay */}
                   <div>
                     <div
                       style={{
@@ -680,16 +659,239 @@ export default function Models() {
       </div>
 
       {/* ══════════════════════════════════════════
-          MODELS GRID
+          MOBILE — full-screen hackathon card
+          Screen 2 on mobile
+      ══════════════════════════════════════════ */}
+      <div className="hackathon-mobile" style={{ display: "none" }}>
+        <div
+          style={{
+            height: "100svh",
+            display: "flex",
+            flexDirection: "column",
+            background: COLORS.white,
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Image — fills all space not taken by content below */}
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              position: "relative",
+              background: COLORS.ink,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: `linear-gradient(160deg, ${COLORS.petroleum}DD 0%, ${COLORS.ink}AA 100%)`,
+                zIndex: 1,
+              }}
+            />
+            <Image
+              src="/hakathon.png"
+              alt="هاكاثون الوعي المعرفي"
+              fill
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
+                opacity: 0.55,
+              }}
+            />
+            {/* Chip */}
+            <div
+              style={{
+                position: "absolute",
+                top: 20,
+                right: 20,
+                zIndex: 2,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
+                background: "rgba(255,255,255,0.12)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: 999,
+                padding: "5px 14px",
+                backdropFilter: "blur(8px)",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 8,
+                  fontWeight: 700,
+                  color: "rgba(255,255,255,0.8)",
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                }}
+              >
+                FEATURED INITIATIVE
+              </span>
+            </div>
+            {/* Title overlay bottom of image */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 20,
+                right: 24,
+                zIndex: 2,
+              }}
+            >
+              <div
+                style={{
+                  width: 28,
+                  height: 2,
+                  background: COLORS.gold,
+                  borderRadius: 1,
+                  marginBottom: 8,
+                }}
+              />
+              <h3
+                style={{
+                  fontFamily: "'Beiruti', sans-serif",
+                  fontSize: 26,
+                  fontWeight: 900,
+                  color: COLORS.white,
+                  margin: 0,
+                  lineHeight: 1.2,
+                }}
+              >
+                هاكاثون الوعي
+                <br />
+                <span style={{ color: COLORS.gold }}>المعرفي</span>
+              </h3>
+            </div>
+          </div>
+
+          {/* Content — tight, no gaps */}
+          <div
+            style={{
+              flexShrink: 0,
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px 24px 28px",
+              borderTop: `3px solid ${COLORS.petroleum}`,
+              gap: 16,
+            }}
+          >
+            <p
+              style={{
+                fontFamily: "'Beiruti', sans-serif",
+                fontSize: 14,
+                fontWeight: 500,
+                color: COLORS.inkSoft,
+                lineHeight: 1.75,
+                margin: 0,
+              }}
+            >
+              مبادرة معرفية أطلقتها منظومة بالشراكة مع جامعة الملك سعود —
+              تجسيداً حقيقياً لنموذج تحويل المعرفة إلى قيمة مؤسسية مؤثرة.
+            </p>
+
+            {/* Meta chips row */}
+            <div
+              style={{
+                display: "flex",
+                gap: 0,
+                borderTop: `1px solid ${COLORS.border}`,
+                borderBottom: `1px solid ${COLORS.border}`,
+              }}
+            >
+              {[
+                { label: "الجهة", value: "جامعة الملك سعود" },
+                { label: "النوع", value: "مبادرة معرفية" },
+                { label: "الحالة", value: "منجز ✦" },
+              ].map((m, i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1,
+                    padding: "10px 12px",
+                    borderLeft: i < 2 ? `1px solid ${COLORS.border}` : "none",
+                  }}
+                >
+                  <p
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 7,
+                      fontWeight: 700,
+                      color: COLORS.inkMuted,
+                      letterSpacing: "2px",
+                      textTransform: "uppercase",
+                      margin: "0 0 3px",
+                    }}
+                  >
+                    {m.label}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Beiruti', sans-serif",
+                      fontSize: 12,
+                      fontWeight: 800,
+                      color: COLORS.ink,
+                      margin: 0,
+                    }}
+                  >
+                    {m.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA — right after meta, no gap */}
+            <a
+              href="https://hackathonwa3i.online/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 12,
+                  background: COLORS.petroleum,
+                  color: COLORS.white,
+                  borderRadius: 999,
+                  padding: "14px 28px",
+                  fontFamily: "'Beiruti', sans-serif",
+                  fontSize: 16,
+                  fontWeight: 800,
+                  boxShadow: `0 10px 32px ${COLORS.petroleum}30`,
+                }}
+              >
+                <span>زيارة الموقع</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M13 8H3M3 8L8 3M3 8L8 13"
+                    stroke="white"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          MODELS GRID — desktop 4-col, mobile 2-col scroll
       ══════════════════════════════════════════ */}
       <div
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "48px 24px 104px",
+          padding: "48px 24px 0",
           position: "relative",
           zIndex: 10,
         }}
+        className="models-grid-wrapper"
       >
         {/* Sub-label */}
         <div
@@ -735,19 +937,17 @@ export default function Models() {
               key={i}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              style={
-                {
-                  background: hovered === i ? COLORS.offwhite : COLORS.white,
-                  padding: "32px 28px",
-                  position: "relative",
-                  overflow: "hidden",
-                  cursor: "default",
-                  transition: "background 0.25s ease",
-                  opacity: inView ? 1 : 0,
-                  transform: inView ? "translateY(0)" : "translateY(16px)",
-                  transition2: `opacity 0.7s ease ${200 + i * 70}ms, transform 0.7s ease ${200 + i * 70}ms`,
-                } as React.CSSProperties
-              }
+              onClick={() => setMobileActive(mobileActive === i ? null : i)}
+              style={{
+                background: hovered === i ? COLORS.offwhite : COLORS.white,
+                padding: "28px 24px",
+                position: "relative",
+                overflow: "hidden",
+                cursor: "default",
+                transition: `background 0.25s ease, opacity 0.7s ease ${200 + i * 70}ms, transform 0.7s ease ${200 + i * 70}ms`,
+                opacity: inView ? 1 : 0,
+                transform: inView ? "translateY(0)" : "translateY(16px)",
+              }}
             >
               {/* Top accent bar */}
               <div
@@ -757,12 +957,13 @@ export default function Models() {
                   right: 0,
                   left: 0,
                   height: 3,
-                  background: hovered === i ? m.accent : "transparent",
+                  background:
+                    hovered === i || mobileActive === i
+                      ? m.accent
+                      : "transparent",
                   transition: "background 0.25s ease",
                 }}
               />
-
-              {/* Gold dot — top left */}
 
               {/* Number + icon */}
               <div
@@ -770,16 +971,19 @@ export default function Models() {
                   display: "flex",
                   alignItems: "flex-start",
                   justifyContent: "space-between",
-                  marginBottom: 20,
+                  marginBottom: 16,
                 }}
               >
                 <div
                   style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    background: hovered === i ? m.accent : COLORS.offwhite,
-                    border: `1px solid ${hovered === i ? m.accent : COLORS.border}`,
+                    width: 40,
+                    height: 40,
+                    borderRadius: 10,
+                    background:
+                      hovered === i || mobileActive === i
+                        ? m.accent
+                        : COLORS.offwhite,
+                    border: `1px solid ${hovered === i || mobileActive === i ? m.accent : COLORS.border}`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -793,7 +997,10 @@ export default function Models() {
                       fontFamily: "Helvetica, Arial, sans-serif",
                       fontSize: 11,
                       fontWeight: 900,
-                      color: hovered === i ? COLORS.white : COLORS.petroleum,
+                      color:
+                        hovered === i || mobileActive === i
+                          ? COLORS.white
+                          : COLORS.petroleum,
                       transition: "color 0.25s ease",
                     }}
                   >
@@ -802,8 +1009,11 @@ export default function Models() {
                 </div>
                 <span
                   style={{
-                    fontSize: 20,
-                    color: hovered === i ? m.accent : COLORS.border,
+                    fontSize: 18,
+                    color:
+                      hovered === i || mobileActive === i
+                        ? m.accent
+                        : COLORS.border,
                     transition: "color 0.25s ease",
                   }}
                 >
@@ -815,12 +1025,15 @@ export default function Models() {
               <p
                 style={{
                   fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 9,
+                  fontSize: 8,
                   fontWeight: 700,
-                  color: hovered === i ? m.accent : COLORS.inkMuted,
+                  color:
+                    hovered === i || mobileActive === i
+                      ? m.accent
+                      : COLORS.inkMuted,
                   letterSpacing: "2px",
                   textTransform: "uppercase",
-                  margin: "0 0 5px",
+                  margin: "0 0 4px",
                   transition: "color 0.25s ease",
                 }}
               >
@@ -833,8 +1046,11 @@ export default function Models() {
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 12,
                   fontWeight: 700,
-                  color: hovered === i ? m.accent : COLORS.inkMuted,
-                  margin: "0 0 8px",
+                  color:
+                    hovered === i || mobileActive === i
+                      ? m.accent
+                      : COLORS.inkMuted,
+                  margin: "0 0 6px",
                   transition: "color 0.25s ease",
                 }}
               >
@@ -845,10 +1061,10 @@ export default function Models() {
               <h3
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
+                  fontSize: 15,
                   fontWeight: 800,
                   color: COLORS.ink,
-                  margin: "0 0 10px",
+                  margin: "0 0 8px",
                   lineHeight: 1.4,
                 }}
               >
@@ -859,11 +1075,11 @@ export default function Models() {
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: COLORS.inkMuted,
-                  margin: "0 0 16px",
-                  lineHeight: 1.7,
+                  margin: "0 0 12px",
+                  lineHeight: 1.65,
                 }}
               >
                 {m.desc}
@@ -875,7 +1091,7 @@ export default function Models() {
                   display: "flex",
                   alignItems: "center",
                   gap: 6,
-                  opacity: hovered === i ? 1 : 0,
+                  opacity: hovered === i || mobileActive === i ? 1 : 0,
                   transition: "opacity 0.25s ease",
                 }}
               >
@@ -908,11 +1124,12 @@ export default function Models() {
             background: COLORS.white,
             border: `1px solid ${COLORS.border}`,
             borderRadius: "0 0 20px 20px",
-            padding: "32px 40px",
+            padding: "28px 36px",
             marginTop: 1,
             boxShadow: `0 12px 40px ${COLORS.petroleum}06`,
             ...vis(900),
           }}
+          className="models-cta"
         >
           <div>
             <p
@@ -931,7 +1148,7 @@ export default function Models() {
             <p
               style={{
                 fontFamily: "'Beiruti', sans-serif",
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: 800,
                 color: COLORS.ink,
                 margin: 0,
@@ -973,13 +1190,73 @@ export default function Models() {
         </div>
       </div>
 
+      {/* Bottom padding */}
+      <div style={{ height: 80 }} className="models-bottom-pad" />
+
       <style>{`
+        /* ══ DESKTOP BASE ══ */
+        .models-header         { padding: 80px 24px 72px !important; height: auto !important; }
+        .hackathon-desktop     { display: block !important; }
+        .hackathon-mobile      { display: none  !important; }
+        .models-grid           { grid-template-columns: repeat(4,1fr) !important; }
+        .models-grid-wrapper   { padding: 48px 24px 0 !important; }
+        .models-bottom-pad     { height: 80px !important; }
+
+        /* ══ TABLET ══ */
         @media (max-width: 1024px) {
-          .hackathon-card { grid-template-columns: 1fr !important; }
-          .models-grid    { grid-template-columns: repeat(2,1fr) !important; }
+          .hackathon-card        { grid-template-columns: 1fr !important; }
+          .models-grid           { grid-template-columns: repeat(2,1fr) !important; }
         }
-        @media (max-width: 640px) {
-          .models-grid { grid-template-columns: 1fr !important; }
+
+        /* ══ MOBILE ══ */
+        @media (max-width: 768px) {
+          /* Header = full screen */
+          .models-header {
+            height: 100svh !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+          }
+          .models-header > div {
+            padding: 0 24px !important;
+          }
+
+          /* Header inner layout */
+          .models-header-grid {
+            grid-template-columns: 1fr !important;
+            gap: 28px !important;
+            margin-top: 24px !important;
+          }
+          .models-header-title {
+            font-size: 40px !important;
+            letter-spacing: -1px !important;
+          }
+          .models-header-lead   { font-size: 22px !important; }
+          .models-header-desc   { font-size: 15px !important; }
+
+          /* Swap hackathon layouts */
+          .hackathon-desktop { display: none  !important; }
+          .hackathon-mobile  { display: block !important; }
+
+          /* Grid → 2 cols on mobile */
+          .models-grid         { grid-template-columns: repeat(2,1fr) !important; }
+          .models-grid-wrapper { padding: 32px 16px 0 !important; }
+
+          /* CTA strip stacks */
+          .models-cta {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            padding: 24px 20px !important;
+          }
+          .models-cta a { width: 100% !important; text-align: center !important; }
+
+          .models-bottom-pad { height: 48px !important; }
+        }
+
+        @media (max-width: 420px) {
+          .models-header-title { font-size: 34px !important; }
+          .models-header-lead  { font-size: 19px !important; }
         }
       `}</style>
     </section>

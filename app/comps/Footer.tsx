@@ -175,7 +175,7 @@ export default function Footer() {
             {/* Logo */}
             <div style={{ marginBottom: 24 }}>
               <Image
-                src="/logo.png"
+                src="/logo3.png"
                 alt="منظومة - Manzoma"
                 width={160}
                 height={72}

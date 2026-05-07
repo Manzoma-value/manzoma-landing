@@ -778,7 +778,7 @@ export default function Hero() {
               display: "flex",
               alignItems: "center",
               gap: 16,
-              marginBottom: 20,
+              marginBottom: 6,
               justifyContent: "center",
               ...contentStyle("pillars"),
             }}
