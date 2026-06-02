@@ -144,7 +144,7 @@ export default function Navbar() {
                 alt="منظومة - Manzoma"
                 width={160}
                 height={72}
-                style={{ objectFit: "contain" }}
+                style={{ objectFit: "contain", width: 160, height: "auto" }}
               />
             </div>
           </a>

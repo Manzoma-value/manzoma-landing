@@ -159,7 +159,7 @@ export default function Partners() {
             whiteSpace: "nowrap",
           }}
         >
-          06
+          05
         </div>
 
         <div
@@ -188,7 +188,7 @@ export default function Partners() {
                 letterSpacing: "2px",
               }}
             >
-              06
+              05
             </span>
             <div style={{ width: 40, height: 1, background: C.border }} />
             <span
@@ -1016,7 +1016,7 @@ export default function Partners() {
                       margin: "0 0 3px",
                     }}
                   >
-                    PARTNER 0{i + 1}
+                    STRATEGIC PARTNER
                   </p>
                   <p
                     style={{

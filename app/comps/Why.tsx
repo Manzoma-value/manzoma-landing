@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -128,7 +128,7 @@ export default function Why() {
               display: "flex",
               alignItems: "center",
               gap: 14,
-              marginBottom: 0,
+              marginBottom: 36,
               ...vis(60),
             }}
           >

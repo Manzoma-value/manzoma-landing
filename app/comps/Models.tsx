@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-const COLORS = {
+const C = {
   petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
@@ -16,101 +16,149 @@ const COLORS = {
   inkMuted: "#6B7C7D",
 };
 
-const models = [
+type Product = {
+  title: string;
+  desc: string;
+  tag: string;
+  partner?: string;
+  href: string;
+  image?: string;
+};
+
+type Model = {
+  num: string;
+  type: string;
+  typeEn: string;
+  title: string;
+  desc: string;
+  icon: string;
+  accent: string;
+  products: Product[];
+};
+
+const models: Model[] = [
   {
     num: "01",
     type: "نموذج معرفي",
     typeEn: "Knowledge Model",
     title: "بناء الأصول غير الملموسة",
-    desc: "تحويل المعرفة إلى أصول قابلة للتبادل والنمو.",
+    desc: "تحويل المعرفة إلى أصول قابلة للتبادل والنمو. نحوّل ما هو ضمني في المنظمات إلى بنية معرفية منظمة يمكن قياسها ومضاعفتها.",
     icon: "◈",
-    accent: COLORS.petroleum,
+    accent: C.petroleum,
+    products: [
+      {
+        title: "هاكاثون الوعي المعرفي",
+        desc: "مبادرة معرفية بالشراكة مع جامعة الملك سعود — تجسيداً لتحويل المعرفة إلى قيمة مؤسسية مؤثرة.",
+        tag: "منجز",
+        partner: "جامعة الملك سعود",
+        href: "https://hackathonwa3i.online/",
+        image: "/hakathon.png",
+      },
+    ],
   },
   {
     num: "02",
     type: "نموذج تكويني",
     typeEn: "Formative Model",
     title: "بناء نموذج الوعي الإنساني",
-    desc: "بناء نموذج الوعي لتحقيق النجاح والتنمية.",
+    desc: "نُعيد تشكيل منطق الفرد وأنماط تفكيره نحو وعي أعمق يُمكّنه من الإسهام الحقيقي في النجاح والتنمية المستدامة.",
     icon: "◎",
-    accent: COLORS.gold,
+    accent: C.gold,
+    products: [],
   },
   {
     num: "03",
     type: "نموذج سياسات",
     typeEn: "Policy Model",
     title: "صناعة السياسات",
-    desc: "صياغة الغايات العليا للسياسات التعليمية.",
+    desc: "صياغة الغايات العليا للسياسات التعليمية. نبني إطاراً فكرياً يُمكّن صانعي القرار من رسم سياسات ذات أثر حقيقي.",
     icon: "⬡",
-    accent: COLORS.crimson,
+    accent: C.crimson,
+    products: [],
   },
   {
     num: "04",
     type: "مختبر ابتكار",
     typeEn: "Innovation Lab",
     title: "مختبر منظومة للابتكار",
-    desc: "تحويل المعرفة إلى نماذج تطبيقية مؤثرة.",
+    desc: "تحويل المعرفة إلى نماذج تطبيقية مؤثرة. مساحة تجريبية لتطوير الحلول المعرفية واختبارها قبل التوسع.",
     icon: "◭",
-    accent: COLORS.rose,
+    accent: C.rose,
+    products: [],
   },
   {
     num: "05",
     type: "أداة تغذية",
     typeEn: "Feedback Tool",
     title: "الفاصلة المنقوطة",
-    desc: "أدوات تغذية راجعة لضبط القرار المؤسسي.",
+    desc: "أدوات تغذية راجعة لضبط القرار المؤسسي. نُصمّم دورات تقييم ذكية تُحوّل الملاحظة إلى قرار استراتيجي.",
     icon: "⊕",
-    accent: COLORS.petroleum,
+    accent: C.petroleum,
+    products: [],
   },
   {
     num: "06",
     type: "نموذج قياس",
     typeEn: "Measurement Model",
     title: "قياس التوجه",
-    desc: "إعادة تشكيل المنطق لدى عناصر المنظومة التعليمية.",
+    desc: "إعادة تشكيل المنطق لدى عناصر المنظومة التعليمية. نبني أدوات قياس دقيقة تكشف الفجوات وتُرشد التدخل.",
     icon: "◉",
-    accent: COLORS.gold,
+    accent: C.gold,
+    products: [],
   },
   {
     num: "07",
     type: "نموذج أداء",
     typeEn: "Performance Model",
     title: "الأداء الوظيفي",
-    desc: "ضبط القدرات البشرية داخل المؤسسات.",
+    desc: "ضبط القدرات البشرية داخل المؤسسات. نُطوّر نماذج الأداء التي تربط الكفاءة بالغاية المؤسسية.",
     icon: "▲",
-    accent: COLORS.crimson,
+    accent: C.crimson,
+    products: [],
   },
   {
     num: "08",
     type: "نموذج عقاري",
     typeEn: "Real Estate Model",
     title: "التطوير العقاري في التعليم",
-    desc: "إعادة تعريف العلاقة بين التعليم والمكان.",
+    desc: "إعادة تعريف العلاقة بين التعليم والمكان. نُصمّم بيئات تعلم تُجسّد قيم المنظومة وتُعزّز الأثر المعرفي.",
     icon: "⬢",
-    accent: COLORS.rose,
+    accent: C.rose,
+    products: [],
   },
 ];
 
-function useInView(threshold = 0.08) {
+function useInView(threshold = 0.05) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const ob = new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting) setInView(true);
       },
-      { threshold },
+      { threshold }
     );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
+    if (ref.current) ob.observe(ref.current);
+    return () => ob.disconnect();
   }, [threshold]);
   return { ref, inView };
 }
 
 export default function Models() {
   const { ref, inView } = useInView();
-  const [hovered, setHovered] = useState<number | null>(null);
-  const [mobileActive, setMobileActive] = useState<number | null>(null);
+  const [active, setActive] = useState(0);
+  const [fading, setFading] = useState(false);
+
+  function switchModel(i: number) {
+    if (i === active) return;
+    setFading(true);
+    setTimeout(() => {
+      setActive(i);
+      setFading(false);
+    }, 200);
+  }
+
+  const m = models[active];
 
   const vis = (delay: number): React.CSSProperties => ({
     opacity: inView ? 1 : 0,
@@ -123,38 +171,31 @@ export default function Models() {
       id="models"
       dir="rtl"
       ref={ref}
-      style={{
-        background: COLORS.offwhite,
-        position: "relative",
-        overflow: "hidden",
-      }}
+      style={{ background: C.offwhite, position: "relative", overflow: "hidden" }}
     >
-      {/* Dot pattern */}
+      {/* Background dot pattern */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
-          backgroundImage: `radial-gradient(${COLORS.petroleum}06 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(${C.petroleum}06 1px, transparent 1px)`,
           backgroundSize: "28px 28px",
         }}
       />
 
-      {/* ══════════════════════════════════════════
-          HEADER — Screen 1 on mobile (100svh)
-      ══════════════════════════════════════════ */}
+      {/* ─── HEADER ─── */}
       <div
         className="models-header"
         style={{
-          background: COLORS.white,
-          borderBottom: `1px solid ${COLORS.border}`,
+          background: C.white,
+          borderBottom: `1px solid ${C.border}`,
           padding: "80px 24px 72px",
           position: "relative",
           zIndex: 10,
         }}
       >
-        {/* Top Gradient Line */}
         <div
           style={{
             position: "absolute",
@@ -162,18 +203,11 @@ export default function Models() {
             right: 0,
             left: 0,
             height: 3,
-            background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
+            background: `linear-gradient(to left, ${C.rose}, ${C.crimson}, ${C.gold}, ${C.petroleum})`,
           }}
         />
 
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           {/* Breadcrumb */}
           <div
             style={{
@@ -189,19 +223,19 @@ export default function Models() {
                 fontFamily: "Helvetica, Arial, sans-serif",
                 fontSize: 11,
                 fontWeight: 800,
-                color: COLORS.border,
+                color: C.border,
                 letterSpacing: "2px",
               }}
             >
               04
             </span>
-            <div style={{ width: 40, height: 1, background: COLORS.border }} />
+            <div style={{ width: 40, height: 1, background: C.border }} />
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
                 fontSize: 10,
                 fontWeight: 700,
-                color: COLORS.petroleum,
+                color: C.petroleum,
                 letterSpacing: "5px",
                 textTransform: "uppercase",
               }}
@@ -210,25 +244,24 @@ export default function Models() {
             </span>
           </div>
 
-          {/* Main Grid */}
+          {/* Title + description grid */}
           <div
-            className="models-header-grid"
+            className="mhg"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
               gap: 72,
               alignItems: "start",
             }}
           >
-            {/* Title */}
             <div style={vis(150)}>
               <h2
-                className="models-header-title"
+                className="mht"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(48px,5.5vw,80px)",
+                  fontSize: "clamp(48px, 5.5vw, 80px)",
                   fontWeight: 800,
-                  color: COLORS.ink,
+                  color: C.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
                   margin: 0,
@@ -238,7 +271,7 @@ export default function Models() {
                 <br />
                 <span
                   style={{
-                    color: COLORS.petroleum,
+                    color: C.petroleum,
                     position: "relative",
                     display: "inline-block",
                     paddingBottom: 6,
@@ -252,7 +285,7 @@ export default function Models() {
                       right: 0,
                       left: 0,
                       height: 3,
-                      background: COLORS.gold,
+                      background: C.gold,
                       borderRadius: 2,
                       transformOrigin: "right",
                       transform: inView ? "scaleX(1)" : "scaleX(0)",
@@ -263,51 +296,44 @@ export default function Models() {
               </h2>
             </div>
 
-            {/* Right copy */}
             <div style={{ paddingBottom: 2, ...vis(280) }}>
               <div
                 style={{
-                  borderRight: `4px solid ${COLORS.petroleum}`,
+                  borderRight: `4px solid ${C.petroleum}`,
                   paddingRight: 24,
                   marginBottom: 20,
                 }}
               >
                 <p
-                  className="models-header-lead"
+                  className="mhl"
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
                     fontSize: 28,
                     fontWeight: 900,
-                    color: COLORS.petroleum,
+                    color: C.petroleum,
                     margin: 0,
                     lineHeight: 1.6,
                   }}
                 >
                   ثمانية نماذج معرفية
                   <br />
-                  <span style={{ color: COLORS.gold }}>
-                    مصممة لإحداث أثر حقيقي
-                  </span>
+                  <span style={{ color: C.gold }}>مصممة لإحداث أثر حقيقي</span>
                 </p>
               </div>
-
               <p
-                className="models-header-desc"
+                className="mhd"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 18,
                   fontWeight: 500,
-                  color: COLORS.inkSoft,
+                  color: C.inkSoft,
                   lineHeight: 1.9,
                   margin: "0 0 24px",
                 }}
               >
-                كل نموذج من نماذج منظومة يمثل منتجًا معرفيًا متكاملًا — مصممًا
-                لبناء قدرات مؤسسية مستدامة، وتحويل المعرفة إلى قيمة اقتصادية
-                قابلة للتطبيق.
+                كل نموذج يمثل منتجًا معرفيًا متكاملًا — مصممًا لبناء قدرات
+                مؤسسية مستدامة وتحويل المعرفة إلى قيمة اقتصادية قابلة للتطبيق.
               </p>
-
-              {/* Stats */}
               <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
                 {[
                   { val: "8", label: "نماذج معرفية" },
@@ -319,11 +345,7 @@ export default function Models() {
                   >
                     {i > 0 && (
                       <div
-                        style={{
-                          width: 1,
-                          height: 40,
-                          background: COLORS.border,
-                        }}
+                        style={{ width: 1, height: 40, background: C.border }}
                       />
                     )}
                     <div style={{ textAlign: "center" }}>
@@ -332,7 +354,7 @@ export default function Models() {
                           fontFamily: "Helvetica, Arial, sans-serif",
                           fontSize: 36,
                           fontWeight: 900,
-                          color: COLORS.petroleum,
+                          color: C.petroleum,
                           margin: "0 0 4px",
                           lineHeight: 1,
                           letterSpacing: -1,
@@ -345,7 +367,7 @@ export default function Models() {
                           fontFamily: "'Beiruti', sans-serif",
                           fontSize: 12,
                           fontWeight: 500,
-                          color: COLORS.inkMuted,
+                          color: C.inkMuted,
                           margin: 0,
                         }}
                       >
@@ -360,593 +382,75 @@ export default function Models() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
-          FEATURED PRODUCT — desktop layout
-          Hidden on mobile (replaced below)
-      ══════════════════════════════════════════ */}
-      <div
-        className="hackathon-desktop"
-        style={{
-          maxWidth: 1280,
-          margin: "0 auto",
-          padding: "72px 24px 0",
-          position: "relative",
-          zIndex: 10,
-        }}
-      >
-        <div style={vis(300)}>
-          {/* Section label */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              marginBottom: 28,
-            }}
-          >
-            <div style={{ width: 28, height: 1, background: COLORS.gold }} />
-            <span
-              style={{
-                fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 9,
-                fontWeight: 700,
-                color: COLORS.gold,
-                letterSpacing: "4px",
-                textTransform: "uppercase",
-              }}
-            >
-              FEATURED INITIATIVE
-            </span>
-          </div>
-
-          {/* Hackathon card */}
-          <a
-            href="https://hackathonwa3i.online/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ textDecoration: "none", display: "block" }}
-          >
-            <div
-              style={{
-                background: COLORS.white,
-                border: `1.5px solid ${COLORS.border}`,
-                borderRadius: 28,
-                overflow: "hidden",
-                boxShadow: `0 24px 80px ${COLORS.petroleum}0A`,
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                transition: "all 0.35s ease",
-                cursor: "pointer",
-              }}
-              className="hackathon-card"
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  `0 40px 100px ${COLORS.petroleum}18`;
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  COLORS.petroleum;
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow =
-                  `0 24px 80px ${COLORS.petroleum}0A`;
-                (e.currentTarget as HTMLElement).style.borderColor =
-                  COLORS.border;
-                (e.currentTarget as HTMLElement).style.transform =
-                  "translateY(0)";
-              }}
-            >
-              {/* LEFT — content */}
-              <div
-                style={{
-                  padding: "52px 52px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>
-                  <h3
-                    style={{
-                      fontFamily: "'Beiruti', sans-serif",
-                      fontSize: "clamp(28px, 3.5vw, 46px)",
-                      fontWeight: 900,
-                      color: COLORS.ink,
-                      lineHeight: 1.25,
-                      margin: "0 0 16px",
-                      letterSpacing: -0.5,
-                    }}
-                  >
-                    هاكاثون
-                    <br />
-                    <span style={{ color: COLORS.petroleum }}>
-                      الوعي المعرفي
-                    </span>
-                  </h3>
-                  <div
-                    style={{
-                      width: 48,
-                      height: 3,
-                      background: COLORS.gold,
-                      borderRadius: 2,
-                      marginBottom: 20,
-                    }}
-                  />
-                  <p
-                    style={{
-                      fontFamily: "'Beiruti', sans-serif",
-                      fontSize: 16,
-                      fontWeight: 500,
-                      color: COLORS.inkSoft,
-                      lineHeight: 1.9,
-                      margin: "0 0 32px",
-                    }}
-                  >
-                    مبادرة معرفية أطلقتها منظومة بالشراكة مع جامعة الملك سعود —
-                    تجسيداً حقيقياً لنموذج تحويل المعرفة إلى قيمة مؤسسية مؤثرة.
-                  </p>
-                  <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
-                    {[
-                      { label: "الجهة", value: "جامعة الملك سعود" },
-                      { label: "النوع", value: "مبادرة معرفية" },
-                      { label: "الحالة", value: "منجز ✦" },
-                    ].map((m, i) => (
-                      <div key={i}>
-                        <p
-                          style={{
-                            fontFamily: "Helvetica, Arial, sans-serif",
-                            fontSize: 9,
-                            fontWeight: 700,
-                            color: COLORS.inkMuted,
-                            letterSpacing: "2px",
-                            textTransform: "uppercase",
-                            margin: "0 0 5px",
-                          }}
-                        >
-                          {m.label}
-                        </p>
-                        <p
-                          style={{
-                            fontFamily: "'Beiruti', sans-serif",
-                            fontSize: 14,
-                            fontWeight: 800,
-                            color: COLORS.ink,
-                            margin: 0,
-                          }}
-                        >
-                          {m.value}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div style={{ marginTop: 40 }}>
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 12,
-                      background: COLORS.petroleum,
-                      color: COLORS.white,
-                      borderRadius: 999,
-                      padding: "12px 28px",
-                      fontFamily: "'Beiruti', sans-serif",
-                      fontSize: 15,
-                      fontWeight: 800,
-                      boxShadow: `0 10px 32px ${COLORS.petroleum}30`,
-                    }}
-                  >
-                    <span>زيارة الموقع</span>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path
-                        d="M13 8H3M3 8L8 3M3 8L8 13"
-                        stroke="white"
-                        strokeWidth="1.8"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT — image */}
-              <div
-                style={{
-                  position: "relative",
-                  overflow: "hidden",
-                  background: COLORS.ink,
-                  minHeight: 480,
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: `linear-gradient(135deg, ${COLORS.petroleum}CC 0%, ${COLORS.ink}99 100%)`,
-                    zIndex: 1,
-                  }}
-                />
-                <Image
-                  src="/hakathon.png"
-                  alt="هاكاثون الوعي المعرفي - منظومة"
-                  fill
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    opacity: 0.6,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    zIndex: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    padding: "40px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 8,
-                      background: "rgba(255,255,255,0.1)",
-                      border: "1px solid rgba(255,255,255,0.2)",
-                      borderRadius: 999,
-                      padding: "6px 16px",
-                      alignSelf: "flex-start",
-                      backdropFilter: "blur(8px)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Helvetica, Arial, sans-serif",
-                        fontSize: 9,
-                        fontWeight: 700,
-                        color: "rgba(255,255,255,0.8)",
-                        letterSpacing: "2px",
-                        textTransform: "uppercase",
-                      }}
-                    >
-                      hackathonwa3i.online
-                    </span>
-                  </div>
-                  <div>
-                    <div
-                      style={{
-                        width: 32,
-                        height: 2,
-                        background: COLORS.gold,
-                        borderRadius: 1,
-                        marginBottom: 14,
-                      }}
-                    />
-                    <p
-                      style={{
-                        fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: "rgba(255,255,255,0.55)",
-                        margin: "0 0 6px",
-                        letterSpacing: "1px",
-                      }}
-                    >
-                      منتج معرفي تطبيقي
-                    </p>
-                    <h4
-                      style={{
-                        fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 28,
-                        fontWeight: 900,
-                        color: COLORS.white,
-                        margin: 0,
-                        lineHeight: 1.3,
-                      }}
-                    >
-                      هاكاثون الوعي
-                      <br />
-                      <span style={{ color: COLORS.gold }}>المعرفي</span>
-                    </h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════
-          MOBILE — full-screen hackathon card
-          Screen 2 on mobile
-      ══════════════════════════════════════════ */}
-      <div className="hackathon-mobile" style={{ display: "none" }}>
-        <div
-          style={{
-            height: "100svh",
-            display: "flex",
-            flexDirection: "column",
-            background: COLORS.white,
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          {/* Image — fills all space not taken by content below */}
-          <div
-            style={{
-              flex: 1,
-              minHeight: 0,
-              position: "relative",
-              background: COLORS.ink,
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background: `linear-gradient(160deg, ${COLORS.petroleum}DD 0%, ${COLORS.ink}AA 100%)`,
-                zIndex: 1,
-              }}
-            />
-            <Image
-              src="/hakathon.png"
-              alt="هاكاثون الوعي المعرفي"
-              fill
-              style={{
-                objectFit: "cover",
-                objectPosition: "center",
-                opacity: 0.55,
-              }}
-            />
-            {/* Chip */}
-            <div
-              style={{
-                position: "absolute",
-                top: 20,
-                right: 20,
-                zIndex: 2,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-                background: "rgba(255,255,255,0.12)",
-                border: "1px solid rgba(255,255,255,0.2)",
-                borderRadius: 999,
-                padding: "5px 14px",
-                backdropFilter: "blur(8px)",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 8,
-                  fontWeight: 700,
-                  color: "rgba(255,255,255,0.8)",
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                }}
-              >
-                FEATURED INITIATIVE
-              </span>
-            </div>
-            {/* Title overlay bottom of image */}
-            <div
-              style={{
-                position: "absolute",
-                bottom: 20,
-                right: 24,
-                zIndex: 2,
-              }}
-            >
-              <div
-                style={{
-                  width: 28,
-                  height: 2,
-                  background: COLORS.gold,
-                  borderRadius: 1,
-                  marginBottom: 8,
-                }}
-              />
-              <h3
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 26,
-                  fontWeight: 900,
-                  color: COLORS.white,
-                  margin: 0,
-                  lineHeight: 1.2,
-                }}
-              >
-                هاكاثون الوعي
-                <br />
-                <span style={{ color: COLORS.gold }}>المعرفي</span>
-              </h3>
-            </div>
-          </div>
-
-          {/* Content — tight, no gaps */}
-          <div
-            style={{
-              flexShrink: 0,
-              display: "flex",
-              flexDirection: "column",
-              padding: "20px 24px 28px",
-              borderTop: `3px solid ${COLORS.petroleum}`,
-              gap: 16,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "'Beiruti', sans-serif",
-                fontSize: 14,
-                fontWeight: 500,
-                color: COLORS.inkSoft,
-                lineHeight: 1.75,
-                margin: 0,
-              }}
-            >
-              مبادرة معرفية أطلقتها منظومة بالشراكة مع جامعة الملك سعود —
-              تجسيداً حقيقياً لنموذج تحويل المعرفة إلى قيمة مؤسسية مؤثرة.
-            </p>
-
-            {/* Meta chips row */}
-            <div
-              style={{
-                display: "flex",
-                gap: 0,
-                borderTop: `1px solid ${COLORS.border}`,
-                borderBottom: `1px solid ${COLORS.border}`,
-              }}
-            >
-              {[
-                { label: "الجهة", value: "جامعة الملك سعود" },
-                { label: "النوع", value: "مبادرة معرفية" },
-                { label: "الحالة", value: "منجز ✦" },
-              ].map((m, i) => (
-                <div
-                  key={i}
-                  style={{
-                    flex: 1,
-                    padding: "10px 12px",
-                    borderLeft: i < 2 ? `1px solid ${COLORS.border}` : "none",
-                  }}
-                >
-                  <p
-                    style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 7,
-                      fontWeight: 700,
-                      color: COLORS.inkMuted,
-                      letterSpacing: "2px",
-                      textTransform: "uppercase",
-                      margin: "0 0 3px",
-                    }}
-                  >
-                    {m.label}
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "'Beiruti', sans-serif",
-                      fontSize: 12,
-                      fontWeight: 800,
-                      color: COLORS.ink,
-                      margin: 0,
-                    }}
-                  >
-                    {m.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA — right after meta, no gap */}
-            <a
-              href="https://hackathonwa3i.online/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 12,
-                  background: COLORS.petroleum,
-                  color: COLORS.white,
-                  borderRadius: 999,
-                  padding: "14px 28px",
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
-                  fontWeight: 800,
-                  boxShadow: `0 10px 32px ${COLORS.petroleum}30`,
-                }}
-              >
-                <span>زيارة الموقع</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M13 8H3M3 8L8 3M3 8L8 13"
-                    stroke="white"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════
-          MODELS GRID — desktop 4-col, mobile 2-col scroll
-      ══════════════════════════════════════════ */}
+      {/* ─── EXPLORER ─── */}
       <div
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "48px 24px 0",
+          padding: "64px 24px 0",
           position: "relative",
           zIndex: 10,
         }}
-        className="models-grid-wrapper"
       >
-        {/* Sub-label */}
+        {/* Section label */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 12,
             marginBottom: 24,
-            ...vis(400),
+            ...vis(260),
           }}
         >
-          <div style={{ width: 28, height: 1, background: COLORS.border }} />
+          <div style={{ width: 28, height: 1, background: C.border }} />
           <span
             style={{
               fontFamily: "Helvetica, Arial, sans-serif",
               fontSize: 9,
               fontWeight: 700,
-              color: COLORS.inkMuted,
+              color: C.inkMuted,
               letterSpacing: "4px",
               textTransform: "uppercase",
             }}
           >
-            ALL KNOWLEDGE MODELS
+            KNOWLEDGE EXPLORER
           </span>
         </div>
 
-        {/* 8-card grid */}
+        {/* ── Spotlight card ── */}
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 1,
-            background: COLORS.border,
-            borderRadius: 24,
-            overflow: "hidden",
-            border: `1px solid ${COLORS.border}`,
-            boxShadow: `0 24px 80px ${COLORS.petroleum}07`,
+            opacity: inView ? (fading ? 0 : 1) : 0,
+            transform: inView
+              ? fading
+                ? "translateY(10px)"
+                : "translateY(0)"
+              : "translateY(20px)",
+            transition: fading
+              ? "opacity 0.2s ease, transform 0.2s ease"
+              : "opacity 0.75s ease 300ms, transform 0.75s ease 300ms",
           }}
-          className="models-grid"
         >
-          {models.map((m, i) => (
+          <div
+            className="spotlight-card"
+            style={{
+              background: C.white,
+              borderRadius: 28,
+              border: `1.5px solid ${C.border}`,
+              overflow: "hidden",
+              boxShadow: `0 32px 80px ${C.petroleum}09`,
+              display: "grid",
+              gridTemplateColumns: "1fr 360px",
+            }}
+          >
+            {/* ── Content column (RIGHT in RTL) ── */}
             <div
-              key={i}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => setMobileActive(mobileActive === i ? null : i)}
               style={{
-                background: hovered === i ? COLORS.offwhite : COLORS.white,
-                padding: "28px 24px",
+                padding: "52px 52px",
+                borderLeft: `1px solid ${C.border}`,
                 position: "relative",
-                overflow: "hidden",
-                cursor: "default",
-                transition: `background 0.25s ease, opacity 0.7s ease ${200 + i * 70}ms, transform 0.7s ease ${200 + i * 70}ms`,
-                opacity: inView ? 1 : 0,
-                transform: inView ? "translateY(0)" : "translateY(16px)",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               {/* Top accent bar */}
@@ -956,180 +460,605 @@ export default function Models() {
                   top: 0,
                   right: 0,
                   left: 0,
-                  height: 3,
-                  background:
-                    hovered === i || mobileActive === i
-                      ? m.accent
-                      : "transparent",
-                  transition: "background 0.25s ease",
+                  height: 4,
+                  background: m.accent,
+                  transition: "background 0.4s ease",
                 }}
               />
 
-              {/* Number + icon */}
+              {/* Type badges */}
               <div
                 style={{
                   display: "flex",
-                  alignItems: "flex-start",
-                  justifyContent: "space-between",
-                  marginBottom: 16,
+                  alignItems: "center",
+                  gap: 12,
+                  marginBottom: 28,
                 }}
               >
                 <div
                   style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background:
-                      hovered === i || mobileActive === i
-                        ? m.accent
-                        : COLORS.offwhite,
-                    border: `1px solid ${hovered === i || mobileActive === i ? m.accent : COLORS.border}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow:
-                      hovered === i ? `0 6px 20px ${m.accent}30` : "none",
-                    transition: "all 0.25s ease",
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: m.accent,
+                    flexShrink: 0,
+                    transition: "background 0.4s ease",
                   }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 11,
-                      fontWeight: 900,
-                      color:
-                        hovered === i || mobileActive === i
-                          ? COLORS.white
-                          : COLORS.petroleum,
-                      transition: "color 0.25s ease",
-                    }}
-                  >
-                    {m.num}
-                  </span>
-                </div>
+                />
                 <span
                   style={{
-                    fontSize: 18,
-                    color:
-                      hovered === i || mobileActive === i
-                        ? m.accent
-                        : COLORS.border,
-                    transition: "color 0.25s ease",
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: m.accent,
+                    transition: "color 0.4s ease",
                   }}
                 >
-                  {m.icon}
+                  {m.type}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontSize: 9,
+                    fontWeight: 600,
+                    color: C.inkMuted,
+                    letterSpacing: "1.5px",
+                    opacity: 0.6,
+                  }}
+                >
+                  {m.typeEn}
                 </span>
               </div>
 
-              {/* Type EN */}
-              <p
-                style={{
-                  fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 8,
-                  fontWeight: 700,
-                  color:
-                    hovered === i || mobileActive === i
-                      ? m.accent
-                      : COLORS.inkMuted,
-                  letterSpacing: "2px",
-                  textTransform: "uppercase",
-                  margin: "0 0 4px",
-                  transition: "color 0.25s ease",
-                }}
-              >
-                {m.typeEn}
-              </p>
-
-              {/* Type AR */}
-              <p
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 12,
-                  fontWeight: 700,
-                  color:
-                    hovered === i || mobileActive === i
-                      ? m.accent
-                      : COLORS.inkMuted,
-                  margin: "0 0 6px",
-                  transition: "color 0.25s ease",
-                }}
-              >
-                {m.type}
-              </p>
-
               {/* Title */}
               <h3
+                className="spotlight-title"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 800,
-                  color: COLORS.ink,
-                  margin: "0 0 8px",
-                  lineHeight: 1.4,
+                  fontSize: "clamp(28px, 3vw, 46px)",
+                  fontWeight: 900,
+                  color: C.ink,
+                  margin: "0 0 16px",
+                  lineHeight: 1.2,
+                  letterSpacing: -0.5,
                 }}
               >
                 {m.title}
               </h3>
 
-              {/* Desc */}
+              {/* Accent divider */}
+              <div
+                style={{
+                  width: 48,
+                  height: 3,
+                  background: m.accent,
+                  borderRadius: 2,
+                  marginBottom: 20,
+                  transition: "background 0.4s ease",
+                }}
+              />
+
+              {/* Description */}
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 12,
+                  fontSize: 18,
                   fontWeight: 500,
-                  color: COLORS.inkMuted,
-                  margin: "0 0 12px",
-                  lineHeight: 1.65,
+                  color: C.inkSoft,
+                  lineHeight: 1.9,
+                  margin: "0 0 40px",
+                  flex: 1,
                 }}
               >
                 {m.desc}
               </p>
 
-              {/* Bottom indicator */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  opacity: hovered === i || mobileActive === i ? 1 : 0,
-                  transition: "opacity 0.25s ease",
-                }}
-              >
-                <div style={{ width: 16, height: 1, background: m.accent }} />
-                <span
+              {/* Products */}
+              {m.products.length > 0 ? (
+                <div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 10,
+                      marginBottom: 16,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 20,
+                        height: 1,
+                        background: m.accent,
+                        transition: "background 0.4s ease",
+                      }}
+                    />
+                    <span
+                      style={{
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontSize: 9,
+                        fontWeight: 700,
+                        color: m.accent,
+                        letterSpacing: "3px",
+                        textTransform: "uppercase",
+                        transition: "color 0.4s ease",
+                      }}
+                    >
+                      PRODUCTS
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: "'Beiruti', sans-serif",
+                        fontSize: 13,
+                        fontWeight: 700,
+                        color: C.inkMuted,
+                      }}
+                    >
+                      المنتجات
+                    </span>
+                  </div>
+                  <div
+                    style={{ display: "flex", flexDirection: "column", gap: 12 }}
+                  >
+                    {m.products.map((p, pi) => (
+                      <a
+                        key={pi}
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", display: "block" }}
+                      >
+                        <div
+                          className="product-row"
+                          style={{
+                            background: C.offwhite,
+                            border: `1.5px solid ${C.border}`,
+                            borderRadius: 16,
+                            padding: "18px 22px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 18,
+                            cursor: "pointer",
+                            transition: "all 0.2s ease",
+                          }}
+                          onMouseEnter={(e) => {
+                            const el = e.currentTarget as HTMLElement;
+                            el.style.borderColor = m.accent;
+                            el.style.background = C.white;
+                            el.style.boxShadow = `0 8px 28px ${m.accent}20`;
+                            el.style.transform = "translateY(-2px)";
+                          }}
+                          onMouseLeave={(e) => {
+                            const el = e.currentTarget as HTMLElement;
+                            el.style.borderColor = C.border;
+                            el.style.background = C.offwhite;
+                            el.style.boxShadow = "none";
+                            el.style.transform = "translateY(0)";
+                          }}
+                        >
+                          {p.image && (
+                            <div
+                              style={{
+                                width: 64,
+                                height: 64,
+                                borderRadius: 12,
+                                overflow: "hidden",
+                                flexShrink: 0,
+                                position: "relative",
+                                background: C.ink,
+                              }}
+                            >
+                              <Image
+                                src={p.image}
+                                alt={p.title}
+                                fill
+                                sizes="64px"
+                                style={{ objectFit: "cover", opacity: 0.8 }}
+                              />
+                            </div>
+                          )}
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                marginBottom: 5,
+                                flexWrap: "wrap",
+                              }}
+                            >
+                              <h4
+                                style={{
+                                  fontFamily: "'Beiruti', sans-serif",
+                                  fontSize: 17,
+                                  fontWeight: 800,
+                                  color: C.ink,
+                                  margin: 0,
+                                }}
+                              >
+                                {p.title}
+                              </h4>
+                              <span
+                                style={{
+                                  fontFamily: "'Beiruti', sans-serif",
+                                  fontSize: 11,
+                                  fontWeight: 700,
+                                  color: m.accent,
+                                  background: `${m.accent}14`,
+                                  padding: "2px 10px",
+                                  borderRadius: 999,
+                                  transition: "background 0.4s ease, color 0.4s ease",
+                                }}
+                              >
+                                {p.tag}
+                              </span>
+                            </div>
+                            {p.partner && (
+                              <p
+                                style={{
+                                  fontFamily: "Helvetica, Arial, sans-serif",
+                                  fontSize: 9,
+                                  fontWeight: 700,
+                                  color: C.inkMuted,
+                                  margin: "0 0 4px",
+                                  letterSpacing: "1.5px",
+                                  textTransform: "uppercase",
+                                }}
+                              >
+                                {p.partner}
+                              </p>
+                            )}
+                            <p
+                              style={{
+                                fontFamily: "'Beiruti', sans-serif",
+                                fontSize: 13,
+                                fontWeight: 500,
+                                color: C.inkSoft,
+                                margin: 0,
+                                lineHeight: 1.65,
+                              }}
+                            >
+                              {p.desc}
+                            </p>
+                          </div>
+                          <div style={{ flexShrink: 0, opacity: 0.5 }}>
+                            <svg
+                              width="18"
+                              height="18"
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M13 8H3M3 8L8 3M3 8L8 13"
+                                stroke={m.accent}
+                                strokeWidth="1.8"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div
                   style={{
-                    fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 8,
-                    fontWeight: 700,
-                    color: m.accent,
-                    letterSpacing: "2px",
-                    textTransform: "uppercase",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                    background: C.offwhite,
+                    border: `1px dashed ${C.border}`,
+                    borderRadius: 12,
+                    padding: "12px 20px",
                   }}
                 >
-                  Manzoma
+                  <span style={{ fontSize: 14, color: C.border }}>◌</span>
+                  <span
+                    style={{
+                      fontFamily: "'Beiruti', sans-serif",
+                      fontSize: 14,
+                      fontWeight: 600,
+                      color: C.inkMuted,
+                    }}
+                  >
+                    منتجات هذا النموذج قريباً
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* ── Accent visual column (LEFT in RTL) ── */}
+            <div
+              className="spotlight-visual"
+              style={{
+                background: m.accent,
+                position: "relative",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "52px 40px",
+                minHeight: 420,
+                transition: "background 0.4s ease",
+              }}
+            >
+              {/* Dot grid overlay */}
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundImage: `radial-gradient(rgba(255,255,255,0.09) 1px, transparent 1px)`,
+                  backgroundSize: "22px 22px",
+                }}
+              />
+
+              {/* Giant background number */}
+              <p
+                aria-hidden
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 180,
+                  fontWeight: 900,
+                  color: "rgba(255,255,255,0.06)",
+                  margin: 0,
+                  lineHeight: 1,
+                  position: "absolute",
+                  bottom: -24,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  letterSpacing: -10,
+                  whiteSpace: "nowrap",
+                  userSelect: "none",
+                }}
+              >
+                {m.num}
+              </p>
+
+              {/* Icon box */}
+              <div
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 26,
+                  background: "rgba(255,255,255,0.1)",
+                  border: "1px solid rgba(255,255,255,0.2)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: 28,
+                  backdropFilter: "blur(4px)",
+                  zIndex: 1,
+                }}
+              >
+                <span
+                  style={{ fontSize: 44, color: "rgba(255,255,255,0.85)" }}
+                >
+                  {m.icon}
                 </span>
               </div>
+
+              {/* Type label */}
+              <div style={{ textAlign: "center", zIndex: 1 }}>
+                <p
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 22,
+                    fontWeight: 800,
+                    color: "rgba(255,255,255,0.9)",
+                    margin: "0 0 6px",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {m.type}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontSize: 9,
+                    fontWeight: 600,
+                    color: "rgba(255,255,255,0.35)",
+                    letterSpacing: "2px",
+                    margin: 0,
+                  }}
+                >
+                  {m.typeEn}
+                </p>
+              </div>
+
+              {/* Products badge */}
+              {m.products.length > 0 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 24,
+                    right: 24,
+                    background: "rgba(255,255,255,0.15)",
+                    border: "1px solid rgba(255,255,255,0.25)",
+                    borderRadius: 999,
+                    padding: "6px 14px",
+                    backdropFilter: "blur(8px)",
+                    zIndex: 1,
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: "rgba(255,255,255,0.85)",
+                      letterSpacing: "2px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {m.products.length} PRODUCT
+                    {m.products.length > 1 ? "S" : ""}
+                  </span>
+                </div>
+              )}
+
+              {/* Corner decoration */}
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  bottom: -40,
+                  left: -40,
+                  width: 180,
+                  height: 180,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  zIndex: 0,
+                }}
+              />
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  bottom: -70,
+                  left: -70,
+                  width: 260,
+                  height: 260,
+                  borderRadius: "50%",
+                  border: "1px solid rgba(255,255,255,0.05)",
+                  zIndex: 0,
+                }}
+              />
             </div>
-          ))}
+          </div>
         </div>
 
-        {/* Bottom CTA strip */}
+        {/* ── Model selector strip ── */}
+        <div style={{ marginTop: 12, ...vis(500) }}>
+          <div
+            className="selector-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(8, 1fr)",
+              gap: 1,
+              background: C.border,
+              borderRadius: 20,
+              overflow: "hidden",
+              border: `1px solid ${C.border}`,
+            }}
+          >
+            {models.map((mod, i) => (
+              <button
+                key={i}
+                onClick={() => switchModel(i)}
+                style={{
+                  background: active === i ? mod.accent : C.white,
+                  border: "none",
+                  padding: "18px 14px",
+                  cursor: "pointer",
+                  textAlign: "right",
+                  transition: "background 0.25s ease",
+                  position: "relative",
+                  outline: "none",
+                }}
+                onMouseEnter={(e) => {
+                  if (active !== i)
+                    (e.currentTarget as HTMLElement).style.background =
+                      C.offwhite;
+                }}
+                onMouseLeave={(e) => {
+                  if (active !== i)
+                    (e.currentTarget as HTMLElement).style.background = C.white;
+                }}
+              >
+                {/* Active shimmer line */}
+                {active === i && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      left: 0,
+                      height: 2,
+                      background: "rgba(255,255,255,0.35)",
+                    }}
+                  />
+                )}
+
+                <p
+                  style={{
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontSize: 15,
+                    fontWeight: 900,
+                    color:
+                      active === i ? "rgba(255,255,255,0.9)" : C.inkMuted,
+                    margin: "0 0 3px",
+                    letterSpacing: -0.5,
+                    transition: "color 0.25s ease",
+                  }}
+                >
+                  {mod.num}
+                </p>
+                <p
+                  className="selector-type"
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color:
+                      active === i
+                        ? "rgba(255,255,255,0.65)"
+                        : C.inkMuted,
+                    margin: 0,
+                    lineHeight: 1.3,
+                    transition: "color 0.25s ease",
+                  }}
+                >
+                  {mod.type}
+                </p>
+
+                {/* Products dot indicator */}
+                {mod.products.length > 0 && (
+                  <div
+                    style={{
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background:
+                        active === i
+                          ? "rgba(255,255,255,0.55)"
+                          : mod.accent,
+                      marginTop: 6,
+                      transition: "background 0.25s ease",
+                    }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ─── CTA ─── */}
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "20px 24px 0",
+          ...vis(600),
+        }}
+      >
         <div
+          className="models-cta"
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             flexWrap: "wrap",
             gap: 24,
-            background: COLORS.white,
-            border: `1px solid ${COLORS.border}`,
-            borderRadius: "0 0 20px 20px",
+            background: C.white,
+            border: `1px solid ${C.border}`,
+            borderRadius: 20,
             padding: "28px 36px",
-            marginTop: 1,
-            boxShadow: `0 12px 40px ${COLORS.petroleum}06`,
-            ...vis(900),
+            boxShadow: `0 12px 40px ${C.petroleum}06`,
           }}
-          className="models-cta"
         >
           <div>
             <p
@@ -1137,7 +1066,7 @@ export default function Models() {
                 fontFamily: "Helvetica, Arial, sans-serif",
                 fontSize: 9,
                 fontWeight: 700,
-                color: COLORS.inkMuted,
+                color: C.inkMuted,
                 letterSpacing: "3px",
                 textTransform: "uppercase",
                 margin: "0 0 8px",
@@ -1150,7 +1079,7 @@ export default function Models() {
                 fontFamily: "'Beiruti', sans-serif",
                 fontSize: 18,
                 fontWeight: 800,
-                color: COLORS.ink,
+                color: C.ink,
                 margin: 0,
               }}
             >
@@ -1163,12 +1092,12 @@ export default function Models() {
               fontFamily: "'Beiruti', sans-serif",
               fontSize: 15,
               fontWeight: 800,
-              color: COLORS.white,
+              color: C.white,
               textDecoration: "none",
-              background: COLORS.petroleum,
+              background: C.petroleum,
               padding: "14px 32px",
               borderRadius: 999,
-              boxShadow: `0 8px 28px ${COLORS.petroleum}30`,
+              boxShadow: `0 8px 28px ${C.petroleum}30`,
               whiteSpace: "nowrap",
               transition: "all 0.2s ease",
               display: "inline-block",
@@ -1179,8 +1108,7 @@ export default function Models() {
                 "translateY(-2px)";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLElement).style.background =
-                COLORS.petroleum;
+              (e.currentTarget as HTMLElement).style.background = C.petroleum;
               (e.currentTarget as HTMLElement).style.transform =
                 "translateY(0)";
             }}
@@ -1190,74 +1118,51 @@ export default function Models() {
         </div>
       </div>
 
-      {/* Bottom padding */}
       <div style={{ height: 80 }} className="models-bottom-pad" />
 
       <style>{`
-        /* ══ DESKTOP BASE ══ */
-        .models-header         { padding: 80px 24px 72px !important; height: auto !important; }
-        .hackathon-desktop     { display: block !important; }
-        .hackathon-mobile      { display: none  !important; }
-        .models-grid           { grid-template-columns: repeat(4,1fr) !important; }
-        .models-grid-wrapper   { padding: 48px 24px 0 !important; }
-        .models-bottom-pad     { height: 80px !important; }
+        /* ── DESKTOP ── */
+        .models-header     { padding: 80px 24px 72px !important; }
+        .spotlight-card    { grid-template-columns: 1fr 360px !important; }
+        .spotlight-visual  { min-height: 420px !important; }
+        .selector-grid     { grid-template-columns: repeat(8, 1fr) !important; }
+        .models-bottom-pad { height: 80px !important; }
 
-        /* ══ TABLET ══ */
-        @media (max-width: 1024px) {
-          .hackathon-card        { grid-template-columns: 1fr !important; }
-          .models-grid           { grid-template-columns: repeat(2,1fr) !important; }
+        /* ── TABLET ── */
+        @media (max-width: 1100px) {
+          .spotlight-card   { grid-template-columns: 1fr 280px !important; }
         }
 
-        /* ══ MOBILE ══ */
+        @media (max-width: 900px) {
+          .spotlight-card   { grid-template-columns: 1fr !important; }
+          .spotlight-visual { min-height: 220px !important; }
+          .selector-grid    { grid-template-columns: repeat(4, 1fr) !important; }
+        }
+
+        /* ── MOBILE ── */
         @media (max-width: 768px) {
-          /* Header = full screen */
-          .models-header {
-            height: 100svh !important;
-            padding: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-          }
-          .models-header > div {
-            padding: 0 24px !important;
-          }
+          .models-header { padding: 56px 24px 48px !important; }
+          .mhg  { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .mht  { font-size: 40px !important; letter-spacing: -1px !important; }
+          .mhl  { font-size: 22px !important; }
+          .mhd  { font-size: 15px !important; }
 
-          /* Header inner layout */
-          .models-header-grid {
-            grid-template-columns: 1fr !important;
-            gap: 28px !important;
-            margin-top: 24px !important;
-          }
-          .models-header-title {
-            font-size: 40px !important;
-            letter-spacing: -1px !important;
-          }
-          .models-header-lead   { font-size: 22px !important; }
-          .models-header-desc   { font-size: 15px !important; }
+          .spotlight-card  { border-radius: 20px !important; }
+          .selector-grid   { grid-template-columns: repeat(4, 1fr) !important; border-radius: 16px !important; }
 
-          /* Swap hackathon layouts */
-          .hackathon-desktop { display: none  !important; }
-          .hackathon-mobile  { display: block !important; }
-
-          /* Grid → 2 cols on mobile */
-          .models-grid         { grid-template-columns: repeat(2,1fr) !important; }
-          .models-grid-wrapper { padding: 32px 16px 0 !important; }
-
-          /* CTA strip stacks */
-          .models-cta {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-            padding: 24px 20px !important;
-          }
+          .models-cta { flex-direction: column !important; align-items: flex-start !important; padding: 24px 20px !important; }
           .models-cta a { width: 100% !important; text-align: center !important; }
-
           .models-bottom-pad { height: 48px !important; }
         }
 
         @media (max-width: 420px) {
-          .models-header-title { font-size: 34px !important; }
-          .models-header-lead  { font-size: 19px !important; }
+          .mht { font-size: 34px !important; }
+          .spotlight-title { font-size: 26px !important; }
+          .selector-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
+
+        /* Hover state for product rows */
+        .product-row { will-change: transform, box-shadow; }
       `}</style>
     </section>
   );

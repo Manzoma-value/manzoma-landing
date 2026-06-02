@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -52,7 +52,7 @@ const navLinks = [
 const elements = [
   { ar: "المعرفة", en: "Knowledge", accent: COLORS.rose },
   { ar: "الحافز المالي", en: "Financial Drive", accent: COLORS.gold },
-  { ar: "الإقتصاد", en: "Economy", accent: COLORS.petroleum },
+  { ar: "الاقتصاد", en: "Economy", accent: COLORS.petroleum },
   { ar: "الديموغرافيا", en: "Demographics", accent: COLORS.crimson },
 ];
 
@@ -179,7 +179,7 @@ export default function Footer() {
                 alt="منظومة - Manzoma"
                 width={160}
                 height={72}
-                style={{ objectFit: "contain" }}
+                style={{ objectFit: "contain", width: 160, height: "auto" }}
               />
             </div>
 

@@ -328,7 +328,7 @@ export default function Strategy() {
               display: "flex",
               alignItems: "center",
               gap: 14,
-              marginBottom: 0,
+              marginBottom: 36,
               ...vis(60),
             }}
           >

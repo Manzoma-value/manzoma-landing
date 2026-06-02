@@ -40,7 +40,7 @@ const elements = [
     ),
   },
   {
-    ar: "الإقتصاد",
+    ar: "الاقتصاد",
     desc: "لغة القيمة",
     en: "Economy",
     accent: COLORS.petroleum,
@@ -60,6 +60,10 @@ const elements = [
     ),
   },
 ];
+
+// Stable reference — must NOT be computed inline inside the component
+// (inline .map() creates a new array every render, breaking the useTyping dependency array)
+const TYPING_WORDS = elements.map((e) => e.ar);
 
 function useTyping(words: string[], speed = 85, pause = 2000) {
   const [displayed, setDisplayed] = useState("");
@@ -105,11 +109,7 @@ export default function Hero() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
 
-  const typedWord = useTyping(
-    elements.map((e) => e.ar),
-    85,
-    1800,
-  );
+  const typedWord = useTyping(TYPING_WORDS, 85, 1800);
 
   useEffect(() => {
     const timings: [Phase, number][] = [
@@ -189,34 +189,7 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* ── CINEMATIC CURTAIN ── */}
-      <div
-        aria-hidden
-        style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 9999,
-          background: COLORS.offwhite,
-          transformOrigin: "top center",
-          animation:
-            "curtainLift 1s cubic-bezier(0.76,0,0.24,1) 0.05s forwards",
-          pointerEvents: phase === "curtain" ? "all" : "none",
-        }}
-      />
-      <div
-        aria-hidden
-        style={{
-          position: "fixed",
-          left: 0,
-          right: 0,
-          height: 2,
-          zIndex: 10000,
-          background: `linear-gradient(90deg, transparent 0%, ${COLORS.gold} 30%, ${COLORS.white} 50%, ${COLORS.gold} 70%, transparent 100%)`,
-          animation:
-            "goldLineSweep 1s cubic-bezier(0.76,0,0.24,1) 0.05s forwards",
-          pointerEvents: "none",
-        }}
-      />
+      {/* Loading screen in page.tsx handles the initial curtain */}
 
       {/* ── BACKGROUNDS ── */}
       <div
@@ -521,58 +494,14 @@ export default function Hero() {
             aria-hidden
             style={{
               position: "absolute",
-              inset: "-40% -22%",
+              inset: "-20% -10%",
               pointerEvents: "none",
               zIndex: 0,
               borderRadius: "50%",
-              background: `radial-gradient(ellipse 62% 48% at 50% 50%, ${COLORS.petroleum}1c 0%, ${COLORS.petroleum}09 42%, transparent 68%)`,
-              filter: "blur(24px)",
-              opacity: logoHovered ? 0.1 : 0,
-              transition: "opacity 0.85s cubic-bezier(0.16,1,0.3,1)",
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: "-24% -12%",
-              pointerEvents: "none",
-              zIndex: 0,
-              borderRadius: "48%",
-              background: `radial-gradient(ellipse 58% 44% at 50% 50%, ${COLORS.gold}16 0%, ${COLORS.gold}07 48%, transparent 68%)`,
-              filter: "blur(13px)",
-              opacity: logoHovered ? 0.1 : 0,
-              transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.07s",
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: "-12% -6%",
-              pointerEvents: "none",
-              zIndex: 0,
-              borderRadius: "38%",
-              background: `radial-gradient(ellipse 54% 40% at 50% 50%, ${COLORS.petroleum}2a 0%, ${COLORS.petroleum}0e 52%, transparent 72%)`,
-              filter: "blur(3px)",
-              opacity: logoHovered ? 0.1 : 0,
-              transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1) 0.1s",
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              bottom: "-52%",
-              left: "8%",
-              right: "8%",
-              height: "58%",
-              pointerEvents: "none",
-              zIndex: 0,
-              background: `radial-gradient(ellipse 78% 100% at 50% 0%, ${COLORS.petroleum}16 0%, ${COLORS.gold}08 44%, transparent 70%)`,
-              filter: "blur(18px)",
-              opacity: logoHovered ? 0.1 : 0,
-              transition: "opacity 0.95s cubic-bezier(0.16,1,0.3,1) 0.13s",
+              background: `radial-gradient(ellipse 60% 50% at 50% 50%, ${COLORS.petroleum}14 0%, transparent 70%)`,
+              filter: "blur(20px)",
+              opacity: logoHovered ? 1 : 0,
+              transition: "opacity 0.7s ease",
             }}
           />
           <div
@@ -1101,15 +1030,6 @@ export default function Hero() {
 
       {/* ── GLOBAL + MOBILE STYLES ── */}
       <style>{`
-        @keyframes curtainLift {
-          0%   { transform: scaleY(1); opacity: 1; }
-          100% { transform: scaleY(0); opacity: 0; }
-        }
-        @keyframes goldLineSweep {
-          0%   { top: 0%;   opacity: 1; }
-          80%  { opacity: 1; }
-          100% { top: 100%; opacity: 0; }
-        }
         @keyframes pillCardIn {
           from { opacity: 0; transform: translateY(32px) scale(0.96); }
           to   { opacity: 1; transform: translateY(0) scale(1); }

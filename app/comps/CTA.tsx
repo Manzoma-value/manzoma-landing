@@ -32,7 +32,7 @@ const elements = [
   },
   {
     num: "3",
-    ar: "الإقتصاد",
+    ar: "الاقتصاد",
     desc: "لغة القيمة",
     en: "Economy",
     accent: COLORS.petroleum,
@@ -185,7 +185,7 @@ export default function CTA() {
             marginTop: -40,
           }}
         >
-          07
+          06
         </div>
 
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
@@ -208,7 +208,7 @@ export default function CTA() {
                 letterSpacing: "2px",
               }}
             >
-              07
+              06
             </span>
             <div style={{ width: 40, height: 1, background: COLORS.border }} />
             <span

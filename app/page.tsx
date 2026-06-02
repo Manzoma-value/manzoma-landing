@@ -1,3 +1,4 @@
+import Loading from "./comps/Loading";
 import Navbar from "./comps/Navbar";
 import Hero from "./comps/Hero";
 import About from "./comps/About";
@@ -10,6 +11,7 @@ import Partners from "./comps/Partners";
 export default function Home() {
   return (
     <main dir="rtl" className="min-h-screen bg-[#F7FAF8] text-[#1A2E2F]">
+      <Loading />
       <Navbar />
       <Hero />
       <About />
